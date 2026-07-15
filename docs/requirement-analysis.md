@@ -76,7 +76,7 @@ From Requirements §1 and §5:
 | Meaningful test tier | 24 backend + 11 frontend tests |
 | README setup instructions | Root + per-package READMEs |
 | **Full prompt history** | `docs/ai-prompt-history.md` |
-| All lifecycle artifacts in repo | `docs/`, `tool-workflow.md`, `tool-specifics/cursor-workflow/` |
+| All lifecycle artifacts in repo | `docs/`, `tool-workflow.md`, `tool-specific/cursor-workflow/` |
 
 ---
 
@@ -159,7 +159,7 @@ See prompt history Prompt 2 for full AI reasoning.
 - [x] No secrets committed
 - [x] State machine integration tests pass
 
-Tracked in [`tool-specifics/cursor-workflow/acceptance-criteria.md`](../tool-specifics/cursor-workflow/acceptance-criteria.md).
+Tracked in [`tool-specific/cursor-workflow/acceptance-criteria.md`](../tool-specific/cursor-workflow/acceptance-criteria.md).
 
 ---
 

@@ -1,8 +1,7 @@
 # Submission Index — Support Ticket Management System
 
-**Purpose:** Map every item from [`Requirements`](../Requirements) to a file in this repository.  
-**Primary AI tool:** Cursor  
-**Reviewer start here** if looking for AI workflow evidence.
+**Purpose:** Detailed index — maps every item from [`Requirements`](../Requirements) to a file in this repository.  
+**Reviewer entry point:** [`SUBMISSION.md`](../SUBMISSION.md) at repo root.
 
 ---
 
@@ -11,7 +10,7 @@
 | Requirements asks for | File | Status |
 |----------------------|------|--------|
 | `tool-workflow.md` at repo root | [`tool-workflow.md`](../tool-workflow.md) | ✅ Complete — all 11 sections |
-| How context is provided | [`tool-workflow.md` §2](../tool-workflow.md) + [`tool-specifics/cursor-workflow/project-context.md`](../tool-specifics/cursor-workflow/project-context.md) | ✅ |
+| How context is provided | [`tool-workflow.md` §2](../tool-workflow.md) + [`tool-specific/cursor-workflow/project-context.md`](../tool-specific/cursor-workflow/project-context.md) | ✅ |
 | Requirement analysis via AI | [`docs/requirement-analysis.md`](requirement-analysis.md) | ✅ |
 | Planning & design via AI | [`docs/design.md`](design.md), [`docs/architecture.md`](architecture.md) | ✅ |
 | **Full prompt history** | [`docs/ai-prompt-history.md`](ai-prompt-history.md) | ✅ — verbatim prompts + iterations |
@@ -28,11 +27,11 @@
 
 | Required file | Path | Status |
 |---------------|------|--------|
-| `project-context.md` | [`tool-specifics/cursor-workflow/project-context.md`](../tool-specifics/cursor-workflow/project-context.md) | ✅ |
-| `spec.md` | [`tool-specifics/cursor-workflow/spec.md`](../tool-specifics/cursor-workflow/spec.md) | ✅ |
-| `tasks.md` | [`tool-specifics/cursor-workflow/tasks.md`](../tool-specifics/cursor-workflow/tasks.md) | ✅ |
-| `acceptance-criteria.md` | [`tool-specifics/cursor-workflow/acceptance-criteria.md`](../tool-specifics/cursor-workflow/acceptance-criteria.md) | ✅ |
-| `cursor-rules-or-instructions.md` | [`tool-specifics/cursor-workflow/cursor-rules-or-instructions.md`](../tool-specifics/cursor-workflow/cursor-rules-or-instructions.md) | ✅ |
+| `project-context.md` | [`tool-specific/cursor-workflow/project-context.md`](../tool-specific/cursor-workflow/project-context.md) | ✅ |
+| `spec.md` | [`tool-specific/cursor-workflow/spec.md`](../tool-specific/cursor-workflow/spec.md) | ✅ |
+| `tasks.md` | [`tool-specific/cursor-workflow/tasks.md`](../tool-specific/cursor-workflow/tasks.md) | ✅ |
+| `acceptance-criteria.md` | [`tool-specific/cursor-workflow/acceptance-criteria.md`](../tool-specific/cursor-workflow/acceptance-criteria.md) | ✅ |
+| `cursor-rules-or-instructions.md` | [`tool-specific/cursor-workflow/cursor-rules-or-instructions.md`](../tool-specific/cursor-workflow/cursor-rules-or-instructions.md) | ✅ |
 
 **Persistent rules (reusable context):** [`.cursor/rules/`](../.cursor/rules/) — 12 rule files enforced during codegen.
 
@@ -59,10 +58,10 @@
 
 | Step | Spec | Prompt session | Implementation |
 |------|------|----------------|----------------|
-| 1 Database | [`spec.md`](../tool-specifics/cursor-workflow/spec.md) | [Prompt history § Session 1](ai-prompt-history.md#session-1--database-stack--step-1) | `database/` |
-| 2 Backend | [`spec.md`](../tool-specifics/cursor-workflow/spec.md) | [Prompt history § Session 2](ai-prompt-history.md#session-2--backend-api-step-2) | `backend/` |
-| 3 Frontend | [`spec.md`](../tool-specifics/cursor-workflow/spec.md) | [Prompt history § Session 3](ai-prompt-history.md#session-3--frontend-step-3) | `frontend/` |
-| 4 Artifacts + review fixes | [`tasks.md`](../tool-specifics/cursor-workflow/tasks.md) | [Prompt history § Sessions 4–5](ai-prompt-history.md#session-4--submission-artifacts--screening) | `docs/`, `tool-workflow.md` |
+| 1 Database | [`spec.md`](../tool-specific/cursor-workflow/spec.md) | [Prompt history § Session 1](ai-prompt-history.md#session-1--database-stack--step-1) | `database/` |
+| 2 Backend | [`spec.md`](../tool-specific/cursor-workflow/spec.md) | [Prompt history § Session 2](ai-prompt-history.md#session-2--backend-api-step-2) | `backend/` |
+| 3 Frontend | [`spec.md`](../tool-specific/cursor-workflow/spec.md) | [Prompt history § Session 3](ai-prompt-history.md#session-3--frontend-step-3) | `frontend/` |
+| 4 Artifacts + review fixes | [`tasks.md`](../tool-specific/cursor-workflow/tasks.md) | [Prompt history § Sessions 4–5](ai-prompt-history.md#session-4--submission-artifacts--screening) | `docs/`, `tool-workflow.md` |
 
 ---
 
@@ -71,7 +70,7 @@
 1. Read [`tool-workflow.md`](../tool-workflow.md) — Part A narrative (5 min)
 2. Read [`docs/ai-prompt-history.md`](ai-prompt-history.md) — full prompt log with iterations (10 min)
 3. Read [`docs/requirement-analysis.md`](requirement-analysis.md) — requirement breakdown before coding (5 min)
-4. Compare [`tool-specifics/cursor-workflow/spec.md`](../tool-specifics/cursor-workflow/spec.md) to actual API in `backend/src/routes/`
+4. Compare [`tool-specific/cursor-workflow/spec.md`](../tool-specific/cursor-workflow/spec.md) to actual API in `backend/src/routes/`
 5. Check human **APPROVED** gates in prompt history before each implementation step
 
 ---
@@ -79,7 +78,7 @@
 ## Workflow pattern used
 
 ```
-@Requirements + @tool-specifics/cursor-workflow/
+@Requirements + @tool-specific/cursor-workflow/
         ↓
    AI drafts plan in docs (no code)
         ↓
@@ -90,4 +89,4 @@
    Prompt appended to docs/ai-prompt-history.md
 ```
 
-This pattern is documented in [`cursor-rules-or-instructions.md`](../tool-specifics/cursor-workflow/cursor-rules-or-instructions.md).
+This pattern is documented in [`cursor-rules-or-instructions.md`](../tool-specific/cursor-workflow/cursor-rules-or-instructions.md).

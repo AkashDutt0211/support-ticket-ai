@@ -40,7 +40,7 @@ Implements the **mandatory Core** of the Support Ticket Management System — a 
 - [x] [`docs/design.md`](docs/design.md) + [`docs/architecture.md`](docs/architecture.md)
 - [x] [`docs/testing.md`](docs/testing.md) + [`docs/debugging.md`](docs/debugging.md)
 - [x] [`docs/reflection.md`](docs/reflection.md) — reflection
-- [x] [`tool-specifics/cursor-workflow/`](tool-specifics/cursor-workflow/) — Cursor artifacts
+- [x] [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) — Cursor artifacts
 
 ## API endpoints
 

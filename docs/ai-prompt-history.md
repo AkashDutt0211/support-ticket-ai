@@ -2,7 +2,7 @@
 
 > **This is the full prompt log** required by [`Requirements`](../Requirements) (line 82: "Full prompt history").  
 > It includes **verbatim user prompts**, AI outputs (summarized), **human corrections**, iteration chains, and traceability to code/docs.  
-> **Reviewer quick path:** [`docs/SUBMISSION.md`](SUBMISSION.md) maps every requirement to a file.
+> **Reviewer quick path:** [`SUBMISSION.md`](../SUBMISSION.md) · [`prompt-history.md`](../prompt-history.md) (root pointers)
 
 **Tool:** Cursor (Agent mode, Plan mode, custom commands)  
 **Pattern:** `@Requirements` + workflow docs → plan → human **APPROVED** → implement → append history
@@ -15,7 +15,7 @@ Each prompt attached persistent project context:
 
 ```
 @Requirements                          ← source of truth
-@tool-specifics/cursor-workflow/       ← spec, tasks, acceptance criteria
+@tool-specific/cursor-workflow/       ← spec, tasks, acceptance criteria
 .cursor/rules/                         ← enforced coding standards
 docs/design.md, docs/architecture.md   ← prior design decisions
 ```
@@ -151,8 +151,8 @@ Add prompt history and planned documents inside md files.
 | Vitest + Supertest integration tests | Mandatory state machine test tier |
 
 **Docs updated before code:**
-- `tool-specifics/cursor-workflow/spec.md` — API contract
-- `tool-specifics/cursor-workflow/tasks.md` — Step 2 checklist
+- `tool-specific/cursor-workflow/spec.md` — API contract
+- `tool-specific/cursor-workflow/tasks.md` — Step 2 checklist
 - `docs/design.md` — backend section
 - `docs/architecture.md` — sequence diagrams
 
@@ -375,7 +375,7 @@ This section shows **iteration beyond first output** — a key reviewer criterio
 ### Template 1 — Plan before build
 
 ```
-Review @Requirements and @tool-specifics/cursor-workflow/spec.md.
+Review @Requirements and @tool-specific/cursor-workflow/spec.md.
 Create plan for [STEP]. Do NOT write code.
 Update spec.md, tasks.md, acceptance-criteria.md, design.md.
 Caveman style. Append to docs/ai-prompt-history.md.

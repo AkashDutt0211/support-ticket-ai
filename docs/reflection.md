@@ -22,7 +22,7 @@ Full-stack Core app in 4 steps:
 
 **State machine as judgment piece.** Hardest Core requirement. Split status endpoint from field updates. Backend enforces. Frontend shows valid buttons only. Integration tests prove it.
 
-**Persistence of context.** `.cursor/rules/` + `tool-specifics/cursor-workflow/` meant AI did not forget patterns between sessions.
+**Persistence of context.** `.cursor/rules/` + `tool-specific/cursor-workflow/` meant AI did not forget patterns between sessions.
 
 **Debugging was visible.** Docker/Node/Vitest issues documented in `docs/debugging.md` and `ai-prompt-history.md` — not hidden.
 

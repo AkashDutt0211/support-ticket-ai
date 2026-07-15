@@ -35,8 +35,10 @@ AI-assisted full-stack exercise. Support ticket app. Lifecycle artifacts matter 
 ## Key docs
 
 - [`Requirements`](../../Requirements) — source of truth
-- [`docs/SUBMISSION.md`](../../docs/SUBMISSION.md) — **reviewer index — start here**
+- [`SUBMISSION.md`](../../SUBMISSION.md) — **reviewer entry point (root)**
+- [`prompt-history.md`](../../prompt-history.md) — prompt log pointer (root)
 - [`docs/ai-prompt-history.md`](../../docs/ai-prompt-history.md) — full prompt log
+- [`docs/SUBMISSION.md`](../../docs/SUBMISSION.md) — detailed artifact index
 - [`tool-workflow.md`](../../tool-workflow.md) — Part A AI workflow
 - [`spec.md`](spec.md) — contracts
 - [`tasks.md`](tasks.md) — checklists

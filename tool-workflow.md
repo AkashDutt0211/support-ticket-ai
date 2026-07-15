@@ -9,7 +9,7 @@
 **Cursor** (Agent mode + Plan mode + custom commands/skills)
 
 Why Cursor for this exercise:
-- Persistent project context via `.cursor/rules/` and `tool-specifics/cursor-workflow/`
+- Persistent project context via `.cursor/rules/` and `tool-specific/cursor-workflow/`
 - Spec-driven flow: plan → human **APPROVED** → implement
 - Full prompt history in `docs/ai-prompt-history.md`
 - Integrated terminal for Docker, tests, API verification
@@ -22,9 +22,9 @@ Why Cursor for this exercise:
 |----------|---------|
 | [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | **Reviewer index** — maps Requirements → repo files |
 | [`Requirements`](Requirements) | Source of truth — always `@` referenced |
-| [`tool-specifics/cursor-workflow/project-context.md`](tool-specifics/cursor-workflow/project-context.md) | Current stack + state snapshot |
-| [`tool-specifics/cursor-workflow/spec.md`](tool-specifics/cursor-workflow/spec.md) | API/UI contracts per step |
-| [`tool-specifics/cursor-workflow/tasks.md`](tool-specifics/cursor-workflow/tasks.md) | Checklist — what's done / next |
+| [`tool-specific/cursor-workflow/project-context.md`](tool-specific/cursor-workflow/project-context.md) | Current stack + state snapshot |
+| [`tool-specific/cursor-workflow/spec.md`](tool-specific/cursor-workflow/spec.md) | API/UI contracts per step |
+| [`tool-specific/cursor-workflow/tasks.md`](tool-specific/cursor-workflow/tasks.md) | Checklist — what's done / next |
 | [`.cursor/rules/`](.cursor/rules/) | Enforced standards (TS, API, DB, React, security) |
 | [`.cursor/skills/feature-architect/`](.cursor/skills/feature-architect/) | Plan before build |
 | [`docs/design.md`](docs/design.md) + [`docs/architecture.md`](docs/architecture.md) | Technical design |
@@ -181,4 +181,4 @@ This workflow scales to production teams:
 | Prompt history | [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md) — verbatim prompts + iterations |
 | Submission index | [`docs/SUBMISSION.md`](docs/SUBMISSION.md) — reviewer checklist |
 | Requirement analysis | [`docs/requirement-analysis.md`](docs/requirement-analysis.md) |
-| Cursor workflow artifacts | `tool-specifics/cursor-workflow/` |
+| Cursor workflow artifacts | `tool-specific/cursor-workflow/` |

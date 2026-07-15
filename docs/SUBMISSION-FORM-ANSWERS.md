@@ -33,7 +33,7 @@ I read [`Requirements`](../Requirements) end-to-end and separated **Core** (mand
 
 **Evidence in repo:**
 - [`docs/requirement-analysis.md`](requirement-analysis.md) — full breakdown written **before** implementation
-- [`tool-specifics/cursor-workflow/acceptance-criteria.md`](../tool-specifics/cursor-workflow/acceptance-criteria.md) — done definition per step
+- [`tool-specific/cursor-workflow/acceptance-criteria.md`](../tool-specific/cursor-workflow/acceptance-criteria.md) — done definition per step
 - Prompt that started analysis: [`ai-prompt-history.md` § Prompt 1](ai-prompt-history.md#prompt-1--technical-lead-planning-verbatim)
 
 ---
@@ -43,7 +43,7 @@ I read [`Requirements`](../Requirements) end-to-end and separated **Core** (mand
 | Phase | How AI was used | Evidence |
 |-------|-----------------|----------|
 | **Requirement analysis** | AI read `@Requirements`, compared Postgres vs MongoDB, mapped Core vs Stretch | [`requirement-analysis.md`](requirement-analysis.md), [Prompt 2](ai-prompt-history.md#prompt-2--stack-decision-verbatim) |
-| **Planning / design** | AI drafted plans in docs; **no code until human APPROVED** | [`spec.md`](../tool-specifics/cursor-workflow/spec.md), [`design.md`](design.md), [Prompt 6](ai-prompt-history.md#prompt-6--backend-plan-verbatim-paraphrased-key-parts) |
+| **Planning / design** | AI drafted plans in docs; **no code until human APPROVED** | [`spec.md`](../tool-specific/cursor-workflow/spec.md), [`design.md`](design.md), [Prompt 6](ai-prompt-history.md#prompt-6--backend-plan-verbatim-paraphrased-key-parts) |
 | **Code generation** | Layer-by-layer: schema → repos → services → routes → UI | `database/`, `backend/`, `frontend/` |
 | **Validation** | `npm test`, `npm run build`, cURL, manual UI walkthrough | [`testing.md`](testing.md), [`PR_DESCRIPTION.md`](../PR_DESCRIPTION.md) |
 | **Debugging** | Pasted terminal errors; AI diagnosed; human verified fix | [`debugging.md`](debugging.md), [Iteration A–E](ai-prompt-history.md#iteration-log-ai-mistakes--human-corrections) |
@@ -67,7 +67,7 @@ Relational FKs (Ticket → User, Comment → Ticket), status filter + ILIKE sear
 
 `PATCH /tickets/:id` updates fields only. `PATCH /tickets/:id/status` handles transitions. Prevents accidental status change via field update.
 
-- **Spec:** [`spec.md`](../tool-specifics/cursor-workflow/spec.md)
+- **Spec:** [`spec.md`](../tool-specific/cursor-workflow/spec.md)
 - **Route:** [`backend/src/routes/tickets.ts`](../backend/src/routes/tickets.ts)
 - **Service:** [`backend/src/services/ticketService.ts`](../backend/src/services/ticketService.ts)
 
@@ -166,7 +166,7 @@ After bug screening, status update uses `updateMany WHERE status = expected` to 
 | Human APPROVED before frontend code | [Prompt 10 → 11](ai-prompt-history.md#prompt-11--approved-verbatim) |
 | State machine rejected by API | `backend/tests/integration/tickets.integration.test.ts` — "rejects OPEN to RESOLVED with 422" |
 | Search + filter works | `GET /api/tickets?search&status` + `frontend/src/pages/TicketListPage.tsx` |
-| Cursor persistent context | [`tool-specifics/cursor-workflow/`](../tool-specifics/cursor-workflow/) + [`.cursor/rules/`](../.cursor/rules/) |
+| Cursor persistent context | [`tool-specific/cursor-workflow/`](../tool-specific/cursor-workflow/) + [`.cursor/rules/`](../.cursor/rules/) |
 | Honest reflection / trade-offs | [`docs/reflection.md`](reflection.md) |
 
 ---
@@ -187,12 +187,12 @@ See also: [`reflection.md` § If I had more time](reflection.md#if-i-had-more-ti
 
 Every session I attach:
 - `@Requirements` — source of truth
-- `@tool-specifics/cursor-workflow/` — spec, tasks, acceptance criteria
+- `@tool-specific/cursor-workflow/` — spec, tasks, acceptance criteria
 - `.cursor/rules/` — enforced standards (TS, API, DB, React, security)
 
 Persistent docs updated before each step: `spec.md`, `tasks.md`, `project-context.md`, `design.md`.
 
-**Evidence:** [`tool-workflow.md` §2](../tool-workflow.md), [`cursor-rules-or-instructions.md`](../tool-specifics/cursor-workflow/cursor-rules-or-instructions.md)
+**Evidence:** [`tool-workflow.md` §2](../tool-workflow.md), [`cursor-rules-or-instructions.md`](../tool-specific/cursor-workflow/cursor-rules-or-instructions.md)
 
 ---
 
