@@ -20,6 +20,7 @@ Why Cursor for this exercise:
 
 | Artifact | Purpose |
 |----------|---------|
+| [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | **Reviewer index** — maps Requirements → repo files |
 | [`Requirements`](Requirements) | Source of truth — always `@` referenced |
 | [`tool-specifics/cursor-workflow/project-context.md`](tool-specifics/cursor-workflow/project-context.md) | Current stack + state snapshot |
 | [`tool-specifics/cursor-workflow/spec.md`](tool-specifics/cursor-workflow/spec.md) | API/UI contracts per step |
@@ -40,7 +41,7 @@ Why Cursor for this exercise:
 - Compared PostgreSQL vs MongoDB — chose Postgres for relational model
 - Broke work into Step 1 (DB) → Step 2 (API) → Step 3 (UI) → Step 4 (artifacts)
 
-**Output:** [`docs/requirement-analysis.md`](docs/requirement-analysis.md) concepts captured in design docs + prompt history.
+**Output:** [`docs/requirement-analysis.md`](docs/requirement-analysis.md) — full requirement breakdown before coding.
 
 **Human judgment:** Locked stack after AI recommendation. Approved each step before code.
 
@@ -123,7 +124,7 @@ Why Cursor for this exercise:
 | `crypto.getRandomValues` | Node 16 default | `.nvmrc` + Node 20 check |
 | npm `# comment` paste | Shell passed args to tsc/vitest | README: one command per line |
 
-**Open issues (documented, not fixed — need approval):** [`docs/debugging.md`](docs/debugging.md)
+**Open issues:** All five screening items fixed — see [`docs/debugging.md`](docs/debugging.md).
 
 **AI role:** Paste terminal output → AI diagnoses → human applies fix → re-run.
 
@@ -137,7 +138,7 @@ Why Cursor for this exercise:
 - `/context-aware-bug-hunter` — production bug screening
 - Human review at each **APPROVED** gate
 
-**Findings summary:** No blocker for Core demo. 2 high UX bugs and 1 critical concurrency edge case documented for optional post-submission fix.
+**Findings summary:** Five issues found in screening — all fixed with regression tests. See [`docs/debugging.md`](docs/debugging.md).
 
 ---
 
@@ -177,5 +178,7 @@ This workflow scales to production teams:
 | Validation + errors | Zod backend, forms + ErrorAlert frontend |
 | Search/filter | `GET /tickets?search&status`, TicketFilters UI |
 | State machine tests | `backend/tests/integration/tickets.integration.test.ts` |
-| Prompt history | `docs/ai-prompt-history.md` |
+| Prompt history | [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md) — verbatim prompts + iterations |
+| Submission index | [`docs/SUBMISSION.md`](docs/SUBMISSION.md) — reviewer checklist |
+| Requirement analysis | [`docs/requirement-analysis.md`](docs/requirement-analysis.md) |
 | Cursor workflow artifacts | `tool-specifics/cursor-workflow/` |

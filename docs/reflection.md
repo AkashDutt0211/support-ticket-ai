@@ -65,7 +65,7 @@ Full-stack Core app in 4 steps:
 |----------|-----|------|
 | No auth | Requirements — Stretch only | Client-trusted user id |
 | Duplicated state machine | Speed, no shared package yet | Drift risk |
-| No search debounce | Simple implementation | Extra API calls on typing |
+| No search debounce | ~~Simple implementation~~ | Fixed — 300ms debounce in Step 5 |
 | Plain CSS | No design system overhead | Basic look |
 | Acting user in localStorage | Demo simplicity | Not production auth pattern |
 
