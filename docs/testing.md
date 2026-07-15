@@ -1,36 +1,91 @@
 # Testing — Support Ticket Management System
 
-## Step 1: Database — complete
+## Summary
 
-See `database/README.md` — `npm run db:verify`
+| Package | Command | Unit tests | Integration tests | Total |
+|---------|---------|------------|-------------------|-------|
+| `database/` | `npm test` | 16 | — | **16** |
+| `backend/` | `npm test` | 45 | 12 | **57** |
+| `frontend/` | `npm test` | 41 | — | **41** |
 
-## Step 2: Backend — complete
+**Grand total: 114 automated tests** (requires Node 20, Docker for backend integration)
+
+---
+
+## Step 1: Database
+
+```bash
+cd database && nvm use 20 && npm test
+```
+
+**16 unit tests** — no database connection required:
+
+| Suite | Tests | Covers |
+|-------|-------|--------|
+| `migration.test.ts` | 6 | SQL schema: tables, enums, indexes, FKs, OPEN default |
+| `seed-data.test.ts` | 7 | Seed integrity: counts, FK refs, status coverage, search keyword |
+| `enums.test.ts` | 3 | Prisma enum values match Core requirements |
+
+Verify DB with Docker:
+```bash
+npm run db:verify
+```
+
+---
+
+## Step 2: Backend
 
 ```bash
 cd backend && nvm use 20 && npm test
 ```
 
-21 tests — state machine unit + API integration.
+**57 tests** (45 unit + 12 integration):
 
-## Step 3: Frontend — complete
+| Suite | Tests | Covers |
+|-------|-------|--------|
+| `ticketStateMachine.test.ts` | 11 | Valid/invalid transitions |
+| `ticketService.test.ts` | 6 | CRUD, not-found, atomic status race |
+| `commentService.test.ts` | 3 | Ticket/user validation, create |
+| `errorHandler.test.ts` | 6 | 400/404/422/500, P2025 mapping |
+| `validate.test.ts` | 4 | Zod middleware body/query/params |
+| `ticketValidators.test.ts` | 12 | Request schema edge cases |
+| `commentValidators.test.ts` | 3 | Comment payload validation |
+| `tickets.integration.test.ts` | 12 | API + real Postgres, state machine |
+
+Integration tests require Docker Postgres on port 5433.
+
+---
+
+## Step 3: Frontend
 
 ```bash
 cd frontend && nvm use 20 && npm test
 ```
 
-9 tests:
+**41 unit tests:**
 
 | Suite | Tests | Covers |
 |-------|-------|--------|
-| `StatusActions.test.tsx` | 3 | Valid buttons per status, onTransition |
-| `TicketForm.test.tsx` | 2 | Client validation, submit |
-| `ErrorAlert.test.tsx` | 2 | Render + dismiss |
-| `ticketStateMachine.test.ts` | 2 | Transition map utils |
+| `client.test.ts` | 6 | API success, errors, validation, network, abort |
+| `ticketsApi.test.ts` | 3 | Query building, status endpoint |
+| `api.test.ts` | 5 | Error message helpers |
+| `useTicket.test.tsx` | 3 | Load, missing id, preserve on refetch fail |
+| `useDebouncedValue.test.tsx` | 3 | Debounce timing, cleanup |
+| `ticketStateMachine.test.ts` | 2 | FE transition utils |
+| `isAbortError.test.ts` | 3 | Abort detection |
+| `StatusActions.test.tsx` | 3 | Valid buttons per status |
+| `TicketForm.test.tsx` | 2 | Validation, submit |
+| `CommentForm.test.tsx` | 2 | Retain on fail, clear on success |
+| `TicketFilters.test.tsx` | 3 | Search/filter interactions |
+| `TicketBadges.test.tsx` | 4 | Status/priority labels |
+| `ErrorAlert.test.tsx` | 2 | Render, dismiss |
 
 Build:
 ```bash
 cd frontend && npm run build
 ```
+
+---
 
 ## Full stack manual check
 
@@ -40,3 +95,14 @@ cd frontend && npm run build
 4. Open http://localhost:5173
 5. Create ticket, search, filter, change status, add comment
 6. Try invalid transition on CLOSED ticket — see error banner
+
+---
+
+## Run all tests
+
+```bash
+nvm use 20
+cd database && npm test
+cd ../backend && npm test   # needs Docker
+cd ../frontend && npm test
+```

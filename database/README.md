@@ -121,6 +121,14 @@ npm run db:migrate
 npm run db:seed
 ```
 
+## Tests
+
+```bash
+npm test
+```
+
+16 unit tests — migration SQL structure, seed data integrity, Prisma enums. No Docker required.
+
 ## Verify setup
 
 ```bash

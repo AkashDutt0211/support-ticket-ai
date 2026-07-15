@@ -19,7 +19,10 @@
     "db:studio": "prisma studio",
     "db:generate": "prisma generate",
     "postinstall": "prisma generate",
-    "db:verify": "bash scripts/verify.sh"
+    "db:verify": "bash scripts/verify.sh",
+    "pretest": "node scripts/check-node.mjs",
+    "test": "node scripts/check-node.mjs && vitest run --config vitest.config.mjs",
+    "test:watch": "vitest --config vitest.config.mjs"
   },
   "prisma": {
     "seed": "tsx prisma/seed.ts"
@@ -31,7 +34,8 @@
     "@types/node": "^22.20.1",
     "prisma": "^6.9.0",
     "tsx": "^4.19.4",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.3"
   },
   "engines": {
     "node": ">=18.18"
