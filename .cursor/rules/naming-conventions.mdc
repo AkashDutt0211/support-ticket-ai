@@ -1,0 +1,75 @@
+---
+description: Enforce consistent naming conventions across JavaScript and TypeScript files, including variables, functions, files, and domain terminology.
+globs: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+alwaysApply: false
+---
+
+# Naming Conventions
+
+You must strictly enforce these naming standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. Casing Rules
+- Use `camelCase` for variables, functions, object properties, and methods.
+- Use `PascalCase` for classes, constructors, and React components.
+- Use `UPPER_SNAKE_CASE` for application-wide constants — configuration values, feature flags, fixed limits, env variable references. Examples: `MAX_RETRY_COUNT`, `API_BASE_URL`, `DEFAULT_PAGE_SIZE`
+- Never use `var`; use `const` by default and `let` only when reassignment is required (covered in full in `js-standards`).
+
+## 2. Boolean Variables
+Prefix boolean variables to make true/false intent obvious:
+- `is` — `isLoading`, `isAuthenticated`, `isVisible`
+- `has` — `hasError`, `hasPermission`, `hasPendingChanges`
+- `can` — `canSubmit`, `canEdit`, `canRetry`
+- `should` — `shouldRedirect`, `shouldRefetch`
+- `was` — `wasSuccessful`, `wasModified`
+- `needs` — `needsConfirmation`, `needsReload`
+
+Avoid negated boolean names (`isNotValid`, `hasNoItems`) — use the positive form and negate at the call site.
+
+## 3. Arrays & Collections
+- Use plural names — `users`, `orderItems`, `validationErrors`.
+- Name maps and dictionaries to reflect the key→value relationship — `userById`, `rolesByPermission`.
+
+## 4. Function & Method Naming
+- Start with a verb — `get`, `fetch`, `create`, `update`, `delete`, `validate`, `calculate`, `handle`, `send`, `format`, `parse`, `build`.
+- Examples: `getUser`, `validateRequest`, `calculateTotal`, `sendNotification`, `formatDate`, `parseResponse`.
+- Event handlers: prefix with `handle` or `on` — `handleSubmit`, `onUserSelect`.
+- Avoid vague verbs like `process`, `manage`, `deal` — be specific.
+
+## 5. React-Specific Naming
+- Component files and exports use `PascalCase` — `UserCard.tsx`, `export function UserCard()`.
+- Custom hooks start with `use` — `useAuth`, `usePagination`, `useFormValidation`.
+- Hook files match the hook name — `useAuth.js`, `usePagination.ts`.
+- Utility/helper files use `camelCase` — `formatDate.js`, `parseQueryString.ts`.
+- Constant files use `camelCase` for the file, `UPPER_SNAKE_CASE` for exports — `config.js` exporting `MAX_RETRY_COUNT`.
+
+## 6. File & Folder Naming
+- React component files: `PascalCase` — `UserProfile.tsx`, `OrderSummary.jsx`
+- Hooks: `camelCase` matching the hook — `useCart.ts`
+- Utilities, helpers, services: `camelCase` — `apiClient.ts`, `dateUtils.js`
+- Test files: match the source file with `.test` or `.spec` suffix — pick one and use it consistently.
+- Barrel/index files: use `index.ts` or `index.js` to re-export from a folder — keep them explicit, never use `export *`.
+- Folders: `camelCase` or `kebab-case` consistently — never mix both.
+
+## 7. Domain-Driven Naming
+- Use business/domain terms, not generic technical ones — prefer `order` over `item`, `transaction` over `record`, `customer` over `user` when the domain calls for it.
+- When in doubt, match the language used in product specs, designs, or API contracts.
+
+## 8. Avoid Generic Names
+Avoid names that carry no meaning: `data`, `temp`, `value`, `result`, `obj`, `arr`, `info`, `stuff`, `thing` — unless the scope is a single line and meaning is obvious from context.
+
+## 9. Avoid Magic Values
+- Extract repeated or unexplained literals into named constants.
+- Bad: `if (retries > 3)` — Good: `if (retries > MAX_RETRY_COUNT)`
+
+## Checklist
+- No `var`; `const` by default, `let` only where reassignment is needed
+- All booleans prefixed with `is`, `has`, `can`, `should`, `was`, or `needs`
+- No negated boolean names (`isNotValid`, `hasNoItems`)
+- All arrays and collections use plural names
+- All functions start with a descriptive verb
+- Event handlers use `handle` or `on` prefix
+- React components and their files use `PascalCase`
+- Custom hooks start with `use` and their files match the hook name
+- No generic names like `data`, `temp`, `result`, `obj`
+- No unexplained magic numbers or strings — extracted into named constants
+- Names reflect domain/business terminology

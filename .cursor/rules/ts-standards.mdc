@@ -1,0 +1,161 @@
+---
+description: Enforce strict typing, type safety, and TypeScript best practices when working on TypeScript files.
+globs: ["**/*.ts", "**/*.tsx"]
+alwaysApply: true
+---
+
+# TypeScript Standards
+
+You must strictly enforce these TypeScript standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. No `any`
+- Never use `any` — it disables type checking entirely.
+- Use `unknown` for values whose type is genuinely unknown, then narrow with type guards.
+- Use `never` to represent states that should never occur — useful for exhaustive checks.
+
+```ts
+function handle(value: any) { ... } // Bad
+
+function handle(value: unknown) { // Good — narrow before use
+  if (typeof value === 'string') { ... }
+  if (value instanceof Error) { ... }
+}
+```
+
+## 2. Explicit Return Types
+- Always declare explicit return types on exported functions, public class methods, and custom hooks.
+- Internal/private functions can rely on inference, but public boundaries must be explicit.
+
+```ts
+export function getUser(id: string) { ... } // Bad — inferred
+export function getUser(id: string): Promise<User> { ... } // Good
+```
+
+## 3. `type` vs `interface`
+- Use `interface` for object shapes, data models, and component props.
+- Use `type` for unions, intersections, primitives, mapped types, and function signatures.
+
+```ts
+interface User { id: string; name: string; }
+interface AdminUser extends User { role: 'admin'; }
+
+type Status = 'loading' | 'success' | 'error';
+type Handler = (event: MouseEvent) => void;
+```
+
+## 4. Type Assertions
+- Avoid `as Type` unless you have verified the type at runtime.
+- Never use non-null assertion (`!`) unless the value is guaranteed to exist and that invariant is documented.
+- Prefer type guards over assertions.
+
+```ts
+const user = response.data as User; // Bad — blind assertion
+
+function isUser(value: unknown): value is User { // Good — type guard
+  return typeof value === 'object' && value !== null && 'id' in value;
+}
+```
+
+## 5. Discriminated Unions
+Use discriminated unions for state objects and API response wrappers — they enable exhaustive type narrowing.
+
+```ts
+// Bad
+interface State { isLoading: boolean; isError: boolean; data?: User; }
+
+// Good
+type State =
+  | { status: 'loading' }
+  | { status: 'error'; error: Error }
+  | { status: 'success'; data: User };
+
+function render(state: State) {
+  switch (state.status) {
+    case 'loading': return <Spinner />;
+    case 'error': return <Error message={state.error.message} />;
+    case 'success': return <UserCard user={state.data} />;
+  }
+}
+```
+
+## 6. Utility Types
+Use built-in utility types instead of duplicating type definitions manually.
+Most commonly needed: `Partial<T>`, `Required<T>`, `Pick<T, K>`, `Omit<T, K>`, `Record<K, T>`.
+
+```ts
+interface UpdateUserInput { name?: string; email?: string; } // Bad — manual
+
+type UpdateUserInput = Partial<Pick<User, 'name' | 'email' | 'role'>>; // Good
+```
+
+## 7. `readonly` and Immutability
+- Use `readonly` on properties that should not change after construction.
+- Use `as const` for immutable literal values and derive union types from them.
+
+```ts
+interface Config { readonly apiUrl: string; readonly timeout: number; }
+const STATUSES = ['active', 'inactive', 'pending'] as const;
+type Status = typeof STATUSES[number];
+```
+
+## 8. The `satisfies` Operator
+Use `satisfies` to validate a value matches a type without widening it — preserves literal types while enforcing correctness.
+
+```ts
+const config: Record<string, string | number> = { apiUrl: '...', timeout: 5000 }; // Bad — widens type
+config.apiUrl; // string | number, not string
+
+const config = { apiUrl: '...', timeout: 5000 } satisfies Record<string, string | number>; // Good
+config.apiUrl; // string — literal type preserved
+```
+
+## 9. Strict Mode
+- Always enable `strict: true` in `tsconfig.json`.
+- Never disable strict mode to silence errors — fix the types instead.
+
+```json
+{ "compilerOptions": { "strict": true } }
+```
+
+## 10. Enums
+- Prefer union types over `enum` — enums generate runtime code and have reverse mapping quirks.
+- Use `const enum` only when inlined numeric values are explicitly required.
+
+```ts
+enum Direction { Up, Down } // Bad — runtime overhead
+type Direction = 'up' | 'down'; // Good — zero runtime cost
+```
+
+## 11. Generic Types
+- Use generics for reusable type-safe functions — don't duplicate type definitions.
+- Constrain with `extends` when the type must satisfy a shape.
+- Use meaningful names — `T` for single type, `TItem`/`TResponse` for complex signatures.
+
+```ts
+function getFirst<T>(items: T[]): T | undefined { return items[0]; }
+function getId<T extends { id: string }>(item: T): string { return item.id; }
+```
+
+## 12. Runtime Validation for External Data
+TypeScript types are erased at runtime — never assume external data matches a type without validation. Use Zod, Joi, or equivalent to parse external data and derive types from schemas.
+
+```ts
+const UserSchema = z.object({ id: z.string(), name: z.string(), email: z.string().email() });
+type User = z.infer<typeof UserSchema>; // single source of truth
+const user = UserSchema.parse(apiResponse); // throws if invalid
+```
+
+## Checklist
+- No `any` — `unknown` with type guards used instead
+- Explicit return types on all exported functions and public methods
+- `interface` for object shapes, `type` for unions and function signatures
+- No blind `as Type` assertions — type guards used instead
+- No `!` non-null assertions without a documented invariant
+- Discriminated unions used for state and response shapes
+- Built-in utility types used — `Partial`, `Pick`, `Omit`, `Record`, `Required`
+- `satisfies` used for config/literal objects needing type validation without widening
+- `readonly` on properties that should not change
+- `strict: true` in `tsconfig.json`
+- No `enum` — union types used instead
+- Generics used for reusable type-safe utilities
+- External data validated at runtime with a schema library

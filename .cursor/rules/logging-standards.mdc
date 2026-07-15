@@ -1,0 +1,118 @@
+---
+description: Enforce structured, meaningful, and secure logging practices across JavaScript and TypeScript applications.
+globs: ["**/services/**/*.js", "**/services/**/*.ts", "**/middleware/**/*.js", "**/middleware/**/*.ts", "**/controllers/**/*.js", "**/controllers/**/*.ts", "**/routes/**/*.js", "**/routes/**/*.ts", "**/handlers/**/*.js", "**/handlers/**/*.ts", "**/utils/**/*.js", "**/utils/**/*.ts", "**/helpers/**/*.js", "**/helpers/**/*.ts"]
+alwaysApply: false
+---
+
+# Logging Standards
+
+You must strictly enforce these logging standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. Use a Logging Library — Never `console.log`
+- Never use `console.log`, `console.error`, or `console.warn` in application code.
+- If the project already has an established logging library or custom logger module, always use that — never introduce a second logger.
+- For new projects: `pino` (recommended — fastest), `winston`, or `bunyan`.
+- Examples use `pino`-style API — adapt to your project's library.
+
+```js
+console.log('User created:', userId); // Bad
+logger.info({ userId, operation: 'createUser' }, 'User created successfully'); // Good
+logger.error({ userId, err }, 'Failed to create user'); // Good
+```
+
+## 2. Log Levels — Use the Right One
+
+| Level | When to use |
+|-------|-------------|
+| `fatal` | Process-crashing, unrecoverable errors — log then exit |
+| `error` | Failures requiring attention — unhandled exceptions, critical failures |
+| `warn` | Unexpected situations that don't break functionality |
+| `info` | Important business events, lifecycle events, significant operations |
+| `debug` | Detailed diagnostic info — development and troubleshooting only |
+
+- Disable `debug` in production via environment variable.
+- Never use `error` for expected business failures (validation errors, not found) — use `warn` or `info`.
+- Never log DB queries, cache hits, or internal function calls at `info` — use `debug`.
+
+## 3. Always Include Context
+Always include: operation name, relevant IDs (`requestId`, `correlationId`, `userId`, `orderId`), and the original error object.
+
+```js
+logger.error('Failed to process payment'); // Bad — no context
+logger.error({ orderId, userId, paymentProvider, err }, 'Payment processing failed'); // Good
+```
+
+### Error Serialization
+Ensure stack traces are captured — some libraries require explicit serialization:
+```js
+logger.error({ err }, 'Operation failed'); // pino — automatic with err serializer
+logger.error('Operation failed', { message: err.message, stack: err.stack }); // winston
+```
+Configure the error serializer at logger setup, not in every log call.
+
+## 4. Request-Scoped Logging — Correlation IDs
+- Every request must have a unique `requestId`/`correlationId` on all logs for that request.
+- Use `pino-http`/`morgan` middleware to generate and attach IDs automatically.
+- Use `AsyncLocalStorage` to propagate IDs without passing them manually through every function.
+
+```js
+app.use(pinoHttp({ genReqId: (req) => req.headers['x-request-id'] || crypto.randomUUID() }));
+
+import { AsyncLocalStorage } from 'node:async_hooks';
+const requestContext = new AsyncLocalStorage();
+const getLogger = () => {
+  const ctx = requestContext.getStore();
+  return ctx ? logger.child({ requestId: ctx.requestId }) : logger;
+};
+```
+
+## 5. Sensitive Data — Never Log
+Never log: passwords, password hashes, auth tokens, API keys, secrets, payment card data, PII (name, email, phone, address, DOB), session identifiers.
+
+```js
+logger.info({ user }, 'User logged in'); // Bad — may contain sensitive fields
+logger.info({ userId: user.id }, 'User logged in'); // Good
+```
+
+## 6. Log at the Right Layer
+Log at the handling boundary — not at every layer the error passes through.
+
+```js
+async function getUser(id) { // Bad — too deep
+  try { return await db.findUser(id); }
+  catch (err) { logger.error({ id, err }, 'DB error'); throw err; }
+}
+
+async function handleGetUser(req, res) { // Good — boundary
+  try { res.json({ data: await getUser(req.params.id) }); }
+  catch (err) { logger.error({ userId: req.params.id, err }, 'Failed to get user'); res.status(500).json({ error: 'Internal server error' }); }
+}
+```
+
+## 7. Production vs Development
+- Production: structured JSON, `info` level minimum, no `debug`.
+- Development: human-readable (pretty-print), `debug` allowed.
+- Configure via environment variables — never hardcode.
+
+```js
+const logger = pino({ level: process.env.LOG_LEVEL || 'info',
+  transport: process.env.NODE_ENV !== 'production' ? { target: 'pino-pretty' } : undefined });
+```
+
+## 8. Consistency
+- Use a single shared logger instance — create child loggers for scoped context.
+- Use consistent field names — `userId` not `user_id` in one place and `uid` in another.
+
+## Checklist
+- No `console.log`, `console.error`, or `console.warn` in application code
+- Existing logging library used — no second logger introduced
+- Correct log level for each event — no `error` for expected failures
+- No DB queries, cache hits, or internal calls logged at `info`
+- Every log includes operation name and relevant IDs
+- No sensitive data in any log — passwords, tokens, PII, payment data
+- Error objects serialized correctly — stack trace captured
+- Request logging middleware in place with `requestId`/`correlationId`
+- Errors logged once at the handling boundary — not at every layer
+- Log level and format configurable via environment variables
+- Single shared logger instance — child loggers for scoped context
+- Consistent field names across all log statements

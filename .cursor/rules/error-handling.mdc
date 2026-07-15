@@ -1,0 +1,113 @@
+---
+description: Enforce explicit, JS-specific error handling patterns including async boundaries, custom error classes, and safe error propagation.
+globs: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+alwaysApply: false
+---
+
+# Error Handling
+
+You must strictly enforce these error handling standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. Core Principles
+- Handle errors explicitly — never ignore or silently swallow failures.
+- Fail fast when required inputs, dependencies, or configurations are invalid — validate at the boundary, not deep in the call stack.
+- Catch errors only when you can meaningfully handle, recover, enrich, or provide a fallback. Otherwise re-throw.
+- When re-throwing or wrapping an error, always preserve the original error — via the native `{ cause }` option (ES2022+) or your project's established wrapping pattern. Never discard it.
+
+```js
+catch (err) { throw new Error('Something went wrong'); } // Bad — root cause lost
+
+catch (err) { throw new DatabaseError('Failed to fetch user', { cause: err }); } // Good
+catch (err) { throw new DatabaseError('Failed to fetch user', { originalError: err }); } // Also valid
+```
+
+## 2. Async Error Handling
+- Always wrap `async/await` calls in `try/catch` at the appropriate boundary.
+- Never leave a `Promise` without an error path — floating promises are silent failures.
+- Use `finally` for cleanup regardless of success or failure.
+- Use `Promise.allSettled()` instead of `Promise.all()` when partial failures are acceptable.
+
+```js
+fetchUser(id).then(updateProfile); // Bad — unhandled rejection
+
+try { // Good
+  const user = await fetchUser(id);
+  await updateProfile(user);
+} catch (err) {
+  logger.error('Failed to update profile', { userId: id, err });
+  throw err;
+} finally {
+  releaseConnection();
+}
+```
+
+## 3. Custom Error Classes
+- If the project already has an established error class hierarchy or error library (`http-errors`, `boom`, or internal module), follow that pattern — never introduce a parallel error system.
+- Only create new error classes when no established pattern exists or a new domain concept needs distinct upstream handling.
+- Extend the native `Error` class — name errors after the domain concept, not the technical layer.
+
+```js
+class ValidationError extends Error {
+  constructor(message, { cause, field } = {}) {
+    super(message, { cause });
+    this.name = 'ValidationError';
+    this.field = field;
+  }
+}
+
+class NotFoundError extends Error {
+  constructor(resource, id) {
+    super(`${resource} with id ${id} not found`);
+    this.name = 'NotFoundError';
+  }
+}
+```
+
+## 4. Error Boundaries & Top-Level Handlers
+- In Express/Node.js: use centralized error-handling middleware as the last middleware — never handle all errors inline in route handlers.
+- In React: wrap feature subtrees in Error Boundaries to prevent a single component failure from crashing the entire app.
+- Register `process.on('unhandledRejection')` and `process.on('uncaughtException')` in Node.js entry points.
+
+## 5. Empty & Shallow Catch Blocks
+- Never use empty `catch` blocks — at minimum, log the error with context.
+- Never catch an error just to re-throw the same generic message — add context or don't catch.
+
+```js
+try { await saveOrder(order); } catch (err) {} // Bad — swallowed
+
+try { await saveOrder(order); } catch (err) { throw new Error('Error saving order'); } // Bad — no added value
+
+try { // Good
+  await saveOrder(order);
+} catch (err) {
+  throw new OrderPersistenceError(`Failed to save order ${order.id}`, { cause: err });
+}
+```
+
+## 6. Logging
+- Log errors with enough context to reproduce the issue — include relevant IDs, operation name, and the original error.
+- Never log sensitive values — passwords, tokens, API keys, PII, payment data.
+- Log at the handling boundary only — not at every layer the error passes through.
+
+## 7. User-Facing Errors
+- Never expose stack traces, internal error messages, or infrastructure details to end users.
+- Map domain/technical errors to user-friendly messages at the API or UI boundary.
+
+## 8. Retry Logic
+- Only retry operations that are idempotent and fail due to transient conditions (network timeouts, rate limits, temporary unavailability).
+- Never retry invalid input, authentication failures, or permanent errors.
+- Always set a retry limit and use exponential backoff.
+- Never silently retry — log the attempt and reason.
+
+## Checklist
+- No empty or comment-only catch blocks
+- No swallowed exceptions — every catch either handles, enriches, or re-throws
+- No floating promises — every async call has an error path
+- `finally` used wherever cleanup is required
+- Re-thrown errors preserve the original error — never discarded
+- Domain errors use custom error classes, not plain `new Error()`
+- Top-level error handlers registered (Express middleware / React Error Boundary / unhandledRejection)
+- Errors logged with context at the handling boundary only — not at every layer
+- No sensitive data in error logs
+- No stack traces or internal details exposed to end users
+- Retry logic only applied to idempotent, transient failures — with attempt limits and backoff

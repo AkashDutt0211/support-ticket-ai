@@ -1,0 +1,81 @@
+---
+description: Enforce modern ECMAScript standards, functional paradigms, and safe memory management when working on JavaScript files.
+globs: ["**/*.js", "**/*.jsx"]
+alwaysApply: true
+---
+
+# Pure JavaScript Architecture Standards
+
+You must strictly enforce these language-level standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. Variable Declaration & Immutability
+- Always use `const` by default. Never use `var`.
+- Use `let` only when the value must be reassigned — conditional string building, retry counters, accumulated state outside a functional pipeline.
+- Prefer immutable update patterns; avoid directly mutating arrays and objects.
+- Use spread syntax (`...`) for cloning and merging instead of direct mutation.
+
+## 2. Modern Syntax
+- Prefer arrow functions for callbacks and short functions.
+- Use template literals instead of string concatenation.
+- Use destructuring for objects and arrays when it improves readability.
+- Use default parameters instead of manual fallback logic inside function bodies.
+- Use optional chaining (`?.`) to safely access deeply nested properties.
+- Use nullish coalescing (`??`) instead of `||` for fallbacks — `||` incorrectly treats `""` and `0` as falsy.
+
+## 3. Functions
+- Keep functions small and focused on a single responsibility.
+- Prefer pure functions — same input always produces same output, no side effects.
+- Avoid deeply nested conditionals; use early returns to flatten logic.
+- Avoid clever one-liners that sacrifice readability for brevity.
+
+## 4. Arrays & Collections
+- Use declarative array methods (`.map()`, `.filter()`, `.reduce()`, `.find()`, `.some()`, `.every()`) instead of manual `for` or `forEach` loops when transforming or querying collections.
+- Use `for...of` when iterating over any iterable (arrays, Maps, Sets, generators) and a functional method doesn't fit naturally.
+- Avoid mutating collections in place; return new arrays/objects instead.
+
+## 5. Asynchronous Code
+- Use `async/await` with `try/catch` instead of `.then().catch()` chains.
+- Always handle promise rejections — never leave a promise without an error path.
+- Wrap independent concurrent async operations in `Promise.all()` to avoid unnecessary sequential blocking.
+- Avoid unbounded `Promise.all()` over large or unknown-size collections — use batching or concurrency limiting.
+
+## 6. Modules
+- Use ES module syntax (`import` / `export`) wherever supported.
+- Import only what is required; avoid wildcard imports.
+- Remove unused imports.
+
+## 7. Memory Management
+- Every subscription, event listener (`window.addEventListener`), socket channel, stream, or polling mechanism (`setInterval`) must have an explicit cleanup/teardown to prevent memory leaks.
+- In component lifecycles, return a cleanup function from effects.
+- In Node.js, close streams, DB connections, and timers when they are no longer needed.
+
+## 8. Code Quality
+- Prefer readability over cleverness.
+- Avoid unnecessary abstractions and over-engineering.
+- Remove unused variables, dead code, and commented-out blocks.
+- Always wrap `JSON.parse()` in a `try/catch` — it throws on invalid JSON.
+
+```js
+const parsed = JSON.parse(rawInput); // Bad — crashes on invalid JSON
+
+try { // Good
+  const parsed = JSON.parse(rawInput);
+} catch (err) {
+  throw new ValidationError('Invalid JSON format', { cause: err });
+}
+```
+
+## Checklist
+- No `var`; `let` only where reassignment is genuinely needed
+- No direct array or object mutation — spread or method chaining used instead
+- No string concatenation with `+` where template literals apply
+- No `||` used as a fallback where `??` is the correct intent
+- No `.then().catch()` chains — all async uses `async/await` with `try/catch`
+- No unhandled promise rejections
+- No unbounded `Promise.all()` over unknown-size collections
+- No deeply nested conditionals — early returns used to flatten logic
+- No imperative loops where a declarative array method fits naturally
+- No wildcard imports; unused imports removed
+- All subscriptions, listeners, and timers have a cleanup/teardown
+- No unused variables, dead code, or leftover commented-out blocks
+- `JSON.parse()` always wrapped in `try/catch`

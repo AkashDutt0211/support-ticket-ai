@@ -1,0 +1,155 @@
+---
+description: Enforce safe, performant, and maintainable database interaction patterns for Node.js backend applications.
+globs: ["**/repositories/**/*.js", "**/repositories/**/*.ts", "**/models/**/*.js", "**/models/**/*.ts", "**/db/**/*.js", "**/db/**/*.ts", "**/database/**/*.js", "**/database/**/*.ts"]
+alwaysApply: false
+---
+
+# Database Patterns
+
+You must strictly enforce these database standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+Examples use Prisma and raw `pg` — adapt to your ORM or query builder. Principles apply universally.
+
+## 1. Never Build Queries with String Concatenation
+Always use parameterized queries, prepared statements, or an ORM — never concatenate user input.
+
+```js
+db.query(`SELECT * FROM users WHERE id = ${userId}`); // Bad — SQL injection risk
+db.query('SELECT * FROM users WHERE id = $1', [userId]); // Good
+prisma.user.findUnique({ where: { id: userId } }); // Good
+```
+
+## 2. Use Transactions for Multi-Step Writes
+Any operation involving two or more writes must use a transaction — a failure midway otherwise leaves the database inconsistent.
+
+```js
+await db.createOrder(orderData); // Bad — if next line fails, data is inconsistent
+await db.deductInventory(orderData.items);
+
+await prisma.$transaction(async (tx) => { // Good
+  await tx.order.create({ data: orderData });
+  await tx.inventory.update({ where: { id: item.id }, data: { quantity: { decrement: item.quantity } } });
+});
+```
+
+## 3. Avoid N+1 Queries
+Never query inside a loop — use eager loading, joins, or batch queries.
+
+```js
+for (const order of orders) { // Bad — N+1
+  order.user = await getUserById(order.userId);
+}
+
+const orders = await prisma.order.findMany({ include: { user: true } }); // Good — single query
+```
+
+## 4. Never Use `SELECT *`
+Always specify required columns — `SELECT *` increases payload, leaks sensitive columns, and breaks on schema changes.
+
+```js
+db.query('SELECT * FROM users WHERE id = $1', [userId]); // Bad
+db.query('SELECT id, name, email, role FROM users WHERE id = $1', [userId]); // Good
+prisma.user.findUnique({ where: { id: userId }, select: { id: true, name: true, email: true } }); // Good
+```
+
+## 5. Use Connection Pooling
+Never create a new connection per request — initialise a pool once at startup and reuse it.
+
+```js
+// Bad — new connection per request
+const client = await new Client(config).connect();
+
+// Good — shared pool at startup
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 10, idleTimeoutMillis: 30000 });
+```
+
+## 6. Handle Connection Errors Gracefully
+- Validate the connection at startup before accepting traffic.
+- At runtime, catch connection errors and return appropriate responses — don't crash.
+- Use retry logic with backoff for transient failures.
+
+```js
+async function connectDatabase() {
+  try { await pool.query('SELECT 1'); logger.info('Database connection established'); }
+  catch (err) { logger.error({ err }, 'Failed to connect'); process.exit(1); }
+}
+```
+
+## 7. Index Thoughtfully
+- Always index foreign key columns.
+- Index columns used frequently in `WHERE`, `ORDER BY`, and `JOIN` conditions.
+- Avoid over-indexing — each index slows writes.
+- Use `EXPLAIN ANALYZE` to review slow queries before adding indexes.
+
+## 8. Paginate Large Queries
+Never fetch unbounded result sets — always apply `LIMIT`/`TAKE`. Define page sizes as named constants.
+
+```js
+prisma.user.findMany(); // Bad — unbounded
+prisma.user.findMany({ take: pageSize, skip: (page - 1) * pageSize, orderBy: { createdAt: 'desc' } }); // Good
+```
+
+## 9. Migrations
+- Never modify schema directly in production — always use migrations.
+- Migrations must be versioned, committed to version control, and reversible where possible.
+- Test migrations against staging before production.
+
+## 10. Sensitive Data
+- Never store plaintext passwords — hash with `bcrypt` or `argon2`.
+- Encrypt sensitive columns (PII, payment data) at rest where required.
+- Never log query results that may contain sensitive data.
+
+## 11. Soft Deletes
+Use `deletedAt` timestamp for recoverable deletions — always filter soft-deleted records by default.
+
+```js
+await prisma.order.delete({ where: { id: orderId } }); // Bad — permanent
+await prisma.order.update({ where: { id: orderId }, data: { deletedAt: new Date() } }); // Good
+await prisma.order.findMany({ where: { deletedAt: null } }); // Always filter
+```
+
+## 12. Query Timeouts & Repository Pattern
+
+### Query Timeouts
+Set timeouts at the pool/client level — runaway queries hold connections and cascade to service failure.
+
+```js
+const pool = new Pool({ connectionString: process.env.DATABASE_URL, max: 10, statement_timeout: 5000 });
+```
+
+### Repository Pattern
+Never write raw database queries in route handlers, controllers, or service functions — isolate all DB access behind a repository layer.
+
+```js
+// Bad — DB query in route handler
+router.get('/orders/:id', async (req, res) => {
+  const order = await prisma.order.findUnique({ where: { id: req.params.id } });
+  res.json({ data: order });
+});
+
+// Good — repository isolates DB access
+class OrderRepository {
+  async findById(id) {
+    return prisma.order.findUnique({ where: { id, deletedAt: null }, select: { id: true, status: true } });
+  }
+}
+router.get('/orders/:id', async (req, res) => {
+  res.json({ data: await orderRepository.findById(req.params.id) });
+});
+```
+
+## Checklist
+- No string concatenation in queries — parameterized queries or ORM used
+- Multi-step writes wrapped in transactions
+- No queries inside loops — batch or eager load instead
+- No `SELECT *` — only required columns fetched
+- Connection pooling used — no per-request connections
+- Connection errors handled gracefully at startup and runtime
+- Foreign keys and frequently queried columns indexed
+- All collection queries paginated with a defined page size
+- Schema changes managed through versioned migrations
+- No plaintext passwords — hashing library used
+- No sensitive query results logged
+- Soft deletes used where business requires recoverable deletions — `deletedAt` filter applied in all queries
+- Query timeouts configured at pool level
+- Database access isolated behind a repository layer

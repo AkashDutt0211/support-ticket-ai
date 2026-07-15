@@ -1,0 +1,88 @@
+---
+description: Enforce preventive security practices to avoid common vulnerabilities in JavaScript and TypeScript applications.
+globs: ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx"]
+alwaysApply: true
+---
+
+# Security Basics
+
+You must strictly enforce these security standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. Input Validation & Injection Prevention
+- Never trust client-provided data — validate and sanitize all external input at the application boundary.
+- Validate type, format, length, and allowed values before any processing.
+- Always use parameterized queries or an ORM — never concatenate user input into SQL or NoSQL queries.
+
+```js
+db.query(`SELECT * FROM users WHERE id = ${userId}`); // Bad — SQL injection risk
+db.query('SELECT * FROM users WHERE id = ?', [userId]); // Good
+```
+
+- Never use `eval()`, `new Function()`, or `setTimeout(string)` with user-controlled strings.
+- Never set `innerHTML`, `outerHTML`, or `dangerouslySetInnerHTML` from user input — use safe DOM APIs or sanitize with DOMPurify first.
+
+## 2. Prototype Pollution
+- Never merge user-controlled objects directly onto existing objects without validation.
+- Validate and whitelist allowed keys at the input boundary before any merging.
+- Prefer well-maintained libraries for deep merging (`lodash.merge`, `deepmerge`) over hand-rolled utilities with user-provided data.
+- Use `Object.create(null)` for plain dictionary objects receiving user-controlled keys.
+
+## 3. Sensitive Data
+- Never hardcode secrets, API keys, or credentials in source code — use environment variables.
+- Never store auth tokens, passwords, or PII in `localStorage` or `sessionStorage` — use cookies with `httpOnly`, `Secure`, and `SameSite=Strict` flags.
+- Never log sensitive values — mask or redact passwords, tokens, API keys, PII, and payment data.
+- Never expose stack traces, internal error messages, or infrastructure details in API responses or UI.
+
+## 4. Authentication & Authorization
+- Always enforce authentication and authorization server-side — client-side checks are UX only.
+- Never expose privileged or admin endpoints without proper access control.
+- Use short-lived tokens with refresh patterns; avoid long-lived sessions.
+- Invalidate tokens and sessions on logout.
+
+## 5. HTTP & API Security
+- Always use HTTPS in production.
+- Set security headers on all HTTP responses via `helmet` or equivalent:
+  - `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `Strict-Transport-Security`
+- Never use wildcard `*` CORS origins on authenticated or sensitive endpoints.
+- Protect state-changing endpoints against CSRF where applicable.
+- Apply rate limiting on auth endpoints and any endpoint accepting user input.
+
+## 6. Dependencies
+- Never install packages with unclear provenance or unusually broad permissions.
+- Run `npm audit` regularly; treat high/critical advisories as blockers.
+- Always commit your lockfile (`package-lock.json` or `yarn.lock`).
+- Remove unused dependencies.
+
+## 7. Environment Variables
+- Never commit `.env` files — add to `.gitignore`.
+- Always provide `.env.example` with all required keys and placeholder values.
+- Never log `process.env` or dump the entire environment object.
+- Validate required env vars at startup — fail fast if missing.
+
+```js
+const requiredEnvVars = ['DATABASE_URL', 'JWT_SECRET', 'API_KEY'];
+for (const key of requiredEnvVars) {
+  if (!process.env[key]) throw new Error(`Missing required environment variable: ${key}`);
+}
+```
+
+## Checklist
+- No `eval()`, `new Function()`, or dynamic code execution with user-controlled input
+- No direct `innerHTML` / `dangerouslySetInnerHTML` from unsanitized input
+- No string concatenation into SQL or NoSQL queries — parameterized queries used
+- No user-controlled object keys merged without input validation and key whitelisting
+- No hardcoded secrets, API keys, or credentials in source code
+- No sensitive data in `localStorage` or `sessionStorage`
+- No sensitive values in logs
+- No stack traces or internal details in API responses or UI
+- Auth and authorization enforced server-side
+- Security headers set via middleware (helmet or equivalent)
+- CORS not open to wildcard `*` on authenticated endpoints
+- Rate limiting applied on auth and public input-accepting endpoints
+- All external input validated at the application boundary
+- Lockfile committed to version control
+- No unused dependencies
+- `.env` file not committed — in `.gitignore`
+- `.env.example` present with all required keys documented
+- No `process.env` dumps or full environment logging
+- Required env vars validated at application startup

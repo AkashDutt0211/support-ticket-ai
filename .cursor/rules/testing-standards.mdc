@@ -1,0 +1,165 @@
+---
+description: Enforce structured, reliable, and maintainable testing practices across JavaScript and TypeScript files.
+globs: ["**/*.test.js", "**/*.test.ts", "**/*.spec.js", "**/*.spec.ts", "**/*.test.tsx", "**/*.spec.tsx"]
+alwaysApply: false
+---
+
+# Testing Standards
+
+You must strictly enforce these testing standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+Examples use Jest/Vitest conventions — adapt to your project's test runner.
+
+## 1. What to Test
+- Test behaviour, not implementation — test what a function does, not how it does it internally.
+- Prioritise: business-critical logic, edge cases, error paths, integration boundaries.
+- Don't test framework code, third-party libraries, or trivial getters/setters.
+- Every bug fix must include a regression test that would have caught it.
+
+## 2. Test Organisation
+- Co-locate test files next to the source file — `userService.ts` and `userService.test.ts` in the same folder.
+- Group related tests with `describe` blocks — nest by module, then by function.
+
+```js
+describe('UserService', () => {
+  describe('createUser', () => {
+    it('creates a user with hashed password', async () => { ... });
+    it('throws ValidationError when email is already taken', async () => { ... });
+  });
+});
+```
+
+## 3. Test Structure — AAA Pattern
+Every test must follow Arrange, Act, Assert:
+
+```js
+it('returns 404 when user does not exist', async () => {
+  const nonExistentUserId = 'user-999'; // Arrange
+  const response = await request(app).get(`/users/${nonExistentUserId}`); // Act
+  expect(response.status).toBe(404); // Assert
+  expect(response.body.error.message).toBe('User not found');
+});
+```
+
+- One assertion focus per test — multiple `expect` calls are fine if they validate the same behaviour.
+
+## 4. Test Naming
+Test names read as specifications — drop the `should` prefix.
+
+```js
+it('should work correctly') // Bad — vague
+it('returns 400 when email format is invalid') // Good
+it('does not retry payment when card is declined with insufficient funds') // Good
+```
+
+## 5. Assertions — Be Specific
+Assert exact shapes and values — vague assertions miss bugs.
+
+```js
+expect(result).toBeTruthy(); // Bad
+expect(response.status).toBe(201); // Good
+expect(response.body.data).toEqual({ id: expect.any(String), email: 'jane@example.com', role: 'user' }); // Good
+```
+
+## 6. Setup & Teardown
+- Use `beforeEach` for mutable setup — never `beforeAll` for mutable state.
+- Use `beforeAll` only for expensive immutable setup (e.g. starting a test DB server).
+- Always clean up in `afterEach`.
+
+```js
+beforeAll(() => { mockEmailService.send.mockResolvedValue({ success: true }); }); // Bad — shared mutable state
+beforeEach(() => { jest.clearAllMocks(); mockEmailService.send.mockResolvedValue({ success: true }); }); // Good
+```
+
+## 7. Unit Tests
+- Fast, isolated, independent — no network calls, no database, no file system.
+- Mock external dependencies at the boundary closest to the external system.
+
+```js
+jest.mock('../services/emailService');
+it('calls emailService.send after user registration', async () => {
+  await registerUser({ email: 'user@example.com', password: 'secret' });
+  expect(emailService.send).toHaveBeenCalledWith(expect.objectContaining({ to: 'user@example.com' }));
+});
+```
+
+## 8. Mocking — Stubs, Mocks, Spies
+- **Stub** — fixed return value; use when you don't care how it was called.
+- **Mock** — records calls; use when the call itself is the behaviour being tested.
+- **Spy** — wraps real function and records calls; use to verify a real function was called.
+- Never mock what you own — mock third-party integrations and infrastructure.
+- Prefer dependency injection over module-level mocking where possible.
+
+## 9. Integration Tests
+- Test real interactions — routes, middleware, services, database.
+- Use a real or in-memory database — the point is to test the integration.
+- Seed data in `beforeEach`, clean up in `afterEach`.
+
+## 10. React Component Testing
+- Use React Testing Library (RTL) — not Enzyme or direct DOM manipulation.
+- Query by role, label, or visible text — never by class names or element IDs.
+- Never test internal component state — test what the user sees and does.
+- Never use snapshot tests — they are brittle and don't communicate intent.
+
+```jsx
+expect(component).toMatchSnapshot(); // Bad
+const button = screen.getByRole('button', { name: /submit order/i }); // Good
+await userEvent.click(button);
+expect(screen.getByText('Order placed successfully')).toBeInTheDocument();
+```
+
+## 11. Async Tests
+- Always `await` async operations.
+- Use `waitFor` from RTL for UI state that updates asynchronously.
+- Never use `setTimeout` or `sleep` — use fake timers (`jest.useFakeTimers()`).
+- Test both resolved and rejected paths.
+
+```js
+await new Promise(resolve => setTimeout(resolve, 500)); // Bad — flaky
+await waitFor(() => { expect(screen.getByText('Loaded')).toBeInTheDocument(); }); // Good
+await expect(fetchUser('invalid-id')).rejects.toThrow(NotFoundError); // Good — testing rejection
+```
+
+## 12. Test Data
+- Use realistic data — not `'test'`, `123`, or `'abc'`.
+- Use factory functions — never copy-paste test objects.
+- Never use production data or real PII.
+
+```js
+const user = { id: '1', name: 'test', email: 'test@test.com' }; // Bad
+const createUser = (overrides = {}) => ({ // Good
+  id: crypto.randomUUID(), name: 'Jane Doe', email: 'jane@example.com', role: 'user', ...overrides,
+});
+```
+
+## 13. Reliability — No Flaky Tests
+- Tests must be deterministic — same result every run regardless of order or environment.
+- Fix flaky tests immediately.
+- Never commit `it.only`, `describe.only`, `test.only`, or `test.skip` — use a linter or pre-commit hook to catch them.
+
+## 14. Coverage
+- Coverage is a signal, not a goal — 80% with meaningful tests beats 100% with trivial ones.
+- Cover all success paths, failure paths, and edge cases for business-critical code.
+
+## 15. CI/CD
+- All tests run automatically on every pull request.
+- A failing test blocks the merge.
+- Keep the test suite fast — slow tests get skipped.
+
+## Checklist
+- Test files co-located next to source files
+- Tests grouped with `describe` blocks by module and function
+- Every test follows Arrange, Act, Assert
+- Test names are specific specifications — no `should` prefix
+- Assertions are specific — exact values and shapes, not just truthiness
+- `beforeEach` for mutable setup — `beforeAll` only for immutable expensive setup
+- Mocks cleared/reset in `beforeEach`
+- Unit tests have no network calls, database access, or file system dependencies
+- External dependencies mocked at the boundary — own code not mocked
+- React components tested with RTL — no snapshot tests, no Enzyme
+- Async tests use `await` and proper async patterns — no `setTimeout` sleeps
+- Test data uses factory functions — no magic strings or copy-pasted objects
+- No flaky tests — no timing or execution order dependencies
+- No committed `it.only`, `describe.only`, or `test.skip`
+- Every bug fix includes a regression test
+- All tests run automatically in CI and a failing test blocks merge

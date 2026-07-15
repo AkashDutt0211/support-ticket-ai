@@ -1,0 +1,128 @@
+---
+description: Enforce RESTful API design principles, consistent request/response structures, and predictable error handling for Node.js API routes and controllers.
+globs: ["**/routes/**/*.js", "**/routes/**/*.ts", "**/controllers/**/*.js", "**/controllers/**/*.ts", "**/handlers/**/*.js", "**/handlers/**/*.ts", "**/services/**/*.js", "**/services/**/*.ts", "**/api/**/*.js", "**/api/**/*.ts"]
+alwaysApply: false
+---
+
+# API Design
+
+You must strictly enforce these API design standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. Resource-Oriented Endpoints
+- Use nouns for resource names, never verbs — the HTTP method is the verb.
+- Use plural names for collections.
+- Use `kebab-case` for URL path segments — `/user-orders`, never `/userOrders` or `/user_orders`.
+- Avoid routes nested deeper than two levels — prefer flat structures with query parameters.
+
+| Bad | Good |
+|-----|------|
+| `POST /createUser` | `POST /users` |
+| `GET /getUserById/123` | `GET /users/123` |
+| `GET /users/123/orders/456/items/789` | `GET /order-items/789` |
+
+## 2. HTTP Methods
+- `GET` — retrieve; must be idempotent and side-effect free.
+- `POST` — create a new resource or trigger an action.
+  - `201 Created` — when a resource is created; return the created resource in the response.
+  - `200 OK` — when an action is performed and a result is returned (e.g. `POST /reports/generate`).
+  - `202 Accepted` — when the action is accepted but processed asynchronously (e.g. `POST /exports`).
+- `PUT` — full replacement; client sends complete representation.
+- `PATCH` — partial update; client sends only fields to change.
+- `DELETE` — remove; returns `204 No Content`.
+- Never use `GET` for operations that mutate state.
+
+```json
+{ "name": "John", "email": "john@example.com", "role": "admin" } // PUT — full replacement
+{ "email": "newemail@example.com" } // PATCH — only what's changing
+```
+
+## 3. Idempotency
+- `GET`, `PUT`, and `DELETE` must be idempotent.
+- For critical `POST` operations (payments, order creation), support an `Idempotency-Key` request header to prevent duplicate resource creation on retries.
+
+## 4. HTTP Status Codes
+Never return `200` for failures.
+
+| Scenario | Code |
+|----------|------|
+| Successful retrieval | `200 OK` |
+| Action performed with result returned | `200 OK` |
+| Resource created | `201 Created` |
+| Action accepted, processing asynchronously | `202 Accepted` |
+| No content | `204 No Content` |
+| Bad request / validation failure | `400 Bad Request` |
+| Unauthenticated | `401 Unauthorized` |
+| Forbidden | `403 Forbidden` |
+| Not found | `404 Not Found` |
+| Conflict (e.g. duplicate) | `409 Conflict` |
+| Rate limit exceeded | `429 Too Many Requests` |
+| Business rule violation | `422 Unprocessable Entity` |
+| Server error | `500 Internal Server Error` |
+
+## 5. Response Structure
+Use a consistent shape across all endpoints — if your project has an established convention, follow that. If starting fresh, pick one shape and apply it everywhere without mixing.
+
+Success response:
+```json
+{ "data": {}, "meta": { "page": 1, "totalCount": 100 } }
+```
+
+General error response — single object for auth failures, not found, server errors, business rule violations:
+```json
+{ "error": { "code": "NOT_FOUND", "message": "User not found" } }
+```
+
+Validation error response — always an array since multiple fields can fail simultaneously:
+```json
+{ "errors": [{ "code": "REQUIRED", "message": "Email is required", "field": "email" }, { "code": "INVALID_FORMAT", "message": "Phone number is invalid", "field": "phone" }] }
+```
+
+- Use `error` (object) for general errors — one thing went wrong at the system or business level.
+- Use `errors` (array) for validation failures — multiple fields can fail at once, consumers iterate to show field-level feedback.
+- Never mix success and error shapes.
+- Never expose stack traces or implementation details in responses.
+- Return only the data the consumer needs.
+
+## 6. Pagination
+- Always paginate collection endpoints that can return more than a small fixed number of items.
+- Always include pagination metadata in the response.
+- Use consistent query parameters — `page`, `pageSize` (or `limit`/`offset`) across all endpoints.
+
+```json
+{ "data": [], "meta": { "page": 1, "pageSize": 20, "totalCount": 200, "totalPages": 10 } }
+```
+
+## 7. Validation
+- Validation is a middleware concern — never write inline validation logic inside route handlers.
+- See `api-validation.mdc` for the full validation middleware pattern.
+
+## 8. Query Parameters
+- Use `camelCase` — `?pageSize=20&sortBy=createdAt`, not `?page_size=20&sort_by=createdAt`.
+- Use clear, descriptive names — `sortBy`, `filterStatus`, not `s`, `f`.
+
+## 9. Versioning
+- Version APIs using URL path prefixes for breaking changes — `/v1/users`, `/v2/users`.
+- Maintain the previous version for a defined deprecation period.
+
+## 10. Performance
+- Avoid returning fields the consumer does not need.
+- Use `Cache-Control` and `ETag` headers for read-heavy endpoints.
+- Avoid N+1 query patterns — batch or join data before responding.
+
+## 11. Documentation
+- Document all public endpoints with request shape, response shape, error cases, and auth requirements.
+
+## Checklist
+- No verb-based endpoint names — nouns and HTTP methods used correctly
+- URL path segments use `kebab-case`
+- Query parameter names use `camelCase` consistently
+- No routes nested deeper than two levels without justification
+- Correct HTTP method used for each operation
+- Critical `POST` operations support idempotency keys where retries are possible
+- Correct HTTP status code returned for every scenario including errors
+- `429` returned when rate limit is exceeded
+- Consistent response shape across all endpoints — `error` object for general errors, `errors` array for validation failures, never mixed with success shape
+- No stack traces or internal details in error responses
+- Collection endpoints are paginated with metadata
+- Breaking changes introduced under a new version prefix
+- No N+1 query patterns in response handlers

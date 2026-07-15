@@ -1,0 +1,134 @@
+---
+description: Enforce clean, maintainable, and composable React component design patterns including state management, props handling, and side effects.
+globs: ["**/*.jsx", "**/*.tsx"]
+alwaysApply: false
+---
+
+# React Component Design
+
+You must strictly enforce these React component design standards during the implementation phase. Code that violates these rules must fail the refactoring step.
+
+## 1. Single Responsibility
+- Each component should do one thing — data fetching, transformation, and rendering in the same component must be split.
+- Extract reusable UI into smaller components when duplication appears across two or more places.
+
+## 2. Component Structure
+- Order: hooks at the top, derived values, handlers, then JSX.
+- Co-locate component-specific styles, types, and helpers close to the component.
+
+## 3. Props
+- Pass only the props a component needs — avoid passing large objects when only a subset is used.
+- Destructure props at the function signature.
+- Avoid prop drilling beyond two layers — use Context, lifting state, or restructuring.
+- A component with more than 5-6 props is likely doing too much.
+
+```jsx
+<UserCard user={user} /> // Bad — passes entire object
+<UserCard name={user.name} avatarUrl={user.avatarUrl} /> // Good
+```
+
+## 4. State Management
+- Keep state as close as possible to where it is used.
+- Use local state for UI-specific concerns (open/closed, loading, error).
+- Never mutate state directly — always use immutable update patterns.
+- Use functional state updates when next state depends on previous value.
+
+```jsx
+setCount(count + 1); // Bad
+setCount(prev => prev + 1); // Good — safe with concurrent rendering
+```
+
+- Derive values from existing state instead of storing them separately.
+- Use `useReducer` when multiple values always change together.
+- Use global state (Context, Redux, Zustand) only for data genuinely shared across multiple features or pages.
+
+## 5. Derived Data
+- Compute derived values during render — never store them in `useState`.
+
+```jsx
+const [fullName, setFullName] = useState(`${firstName} ${lastName}`); // Bad — derived state
+const fullName = `${firstName} ${lastName}`; // Good — computed during render
+```
+
+## 6. Business Logic & Custom Hooks
+- Extract complex logic, data fetching, and side effect orchestration into custom hooks.
+- Custom hooks should be focused — one hook per logical concern.
+- Utility functions that don't need React state belong in plain functions, not hooks.
+
+## 7. Side Effects
+- Never use `useEffect` to derive values that can be computed directly.
+- Always declare accurate dependency arrays.
+- Always return a cleanup function from effects that set up subscriptions, timers, or listeners.
+- Never define an `async` function directly as the `useEffect` callback — `useEffect` does not handle the returned Promise.
+
+```jsx
+useEffect(async () => { // Bad — returned Promise is ignored
+  const user = await fetchUser(id);
+  setUser(user);
+}, [id]);
+
+useEffect(() => { // Good
+  const loadUser = async () => { const user = await fetchUser(id); setUser(user); };
+  loadUser();
+}, [id]);
+```
+
+## 8. Controlled vs Uncontrolled Components
+- Prefer controlled components for form inputs — source of truth should be React state, not the DOM.
+
+## 9. List Rendering & Keys
+- Always use a stable, unique `key` from the data — never use array index as `key`.
+
+```jsx
+{users.map((user, index) => <UserCard key={index} user={user} />)} // Bad
+{users.map(user => <UserCard key={user.id} user={user} />)} // Good
+```
+
+## 10. Composition
+- Prefer composition over deeply nested conditional rendering.
+- Use `children` and render props for flexible, reusable components.
+
+## 11. Performance
+- Never pass inline objects or arrow functions as props — they create new references on every render.
+
+```jsx
+<UserCard style={{ margin: 0 }} onClick={() => handleSelect(user.id)} /> // Bad
+const cardStyle = { margin: 0 };
+const handleUserSelect = useCallback(() => handleSelect(user.id), [user.id]);
+<UserCard style={cardStyle} onClick={handleUserSelect} /> // Good
+```
+
+- Memoize with `useMemo` and `useCallback` only when there is a measurable benefit — not by default.
+
+## 12. Maintainability
+- Remove unused props, state, effects, and handlers.
+- Always define prop types — TypeScript interfaces/types for `.tsx`, PropTypes for `.jsx`.
+
+## 13. Accessibility
+- Use semantic HTML — `<button>` for actions, `<a>` for navigation. Never use `<div>` or `<span>` as interactive elements.
+- Always provide `alt` on images — use empty `alt=""` for decorative images.
+- Add `aria-label` to icon-only buttons.
+- Never remove focus `outline` without a visible replacement.
+- Always associate form inputs with a `<label>` using `htmlFor` / `id`.
+
+## Checklist
+- Component has a single, clearly defined responsibility
+- No large objects passed as props when only a subset is needed
+- No prop drilling beyond two levels
+- No direct state mutation — immutable update patterns used
+- No state that duplicates or can be derived from existing state
+- Functional state updates used when next state depends on previous
+- Global state used only for genuinely shared cross-feature data
+- No `useEffect` used to derive values that can be computed directly
+- All effects have accurate dependency arrays and cleanup where needed
+- No async function directly as `useEffect` callback
+- No array index used as `key` in list rendering
+- No business logic embedded directly in JSX
+- No unnecessary `useMemo` or `useCallback` without a measurable reason
+- Unused props, state, effects, and handlers removed
+- Prop types defined — TypeScript types/interfaces for `.tsx`, PropTypes for `.jsx`
+- Semantic HTML used — no `div`/`span` for interactive elements
+- All images have `alt` text
+- Icon-only buttons have `aria-label`
+- Focus outline not removed without a visible replacement
+- All form inputs have an associated `<label>`
