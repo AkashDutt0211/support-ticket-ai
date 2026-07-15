@@ -59,7 +59,10 @@
 ## Step 4: Submission artifacts — complete
 
 - [x] `tool-workflow.md` — Part A AI workflow
-- [x] `docs/reflcetion.md` — reflection
+- [x] `docs/SUBMISSION-FORM-ANSWERS.md` — online form answers in repo
+- [x] `docs/requirement-analysis.md` — full requirement breakdown
+- [x] `docs/ai-prompt-history.md` — verbatim prompts + iteration log
+- [x] `docs/reflection.md` — reflection
 - [x] `PR_DESCRIPTION.md` — PR summary + test plan
-- [x] `docs/debugging.md` — resolved + open screening items
-- [x] Full-app screening documented (no major code changes without approval)
+- [x] `docs/debugging.md` — resolved + screening fixes
+- [x] Full-app screening + 5 bug fixes

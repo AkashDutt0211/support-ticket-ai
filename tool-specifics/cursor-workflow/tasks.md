@@ -62,8 +62,10 @@
 ## Step 4: Submission artifacts — complete
 
 - [x] `tool-workflow.md` (Part A)
-- [x] `docs/reflcetion.md` (reflection)
+- [x] `docs/SUBMISSION-FORM-ANSWERS.md` — mirrors online participation form
+- [x] `docs/requirement-analysis.md` — full requirement breakdown
+- [x] `docs/ai-prompt-history.md` — verbatim prompts + iteration log
+- [x] `docs/reflection.md`
 - [x] `PR_DESCRIPTION.md`
-- [x] `docs/debugging.md` — resolved + open screening items
-- [x] `/code-refactorer` + `/context-aware-bug-hunter` screening (findings documented, no major code changes without approval)
-- [x] Manual E2E checklist sign-off (see `PR_DESCRIPTION.md` test plan)
+- [x] `docs/debugging.md`
+- [x] Screening + 5 bug fixes applied

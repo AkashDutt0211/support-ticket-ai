@@ -34,10 +34,12 @@ Implements the **mandatory Core** of the Support Ticket Management System — a 
 ### Part A + C — Lifecycle artifacts
 
 - [x] [`tool-workflow.md`](tool-workflow.md) — AI workflow (Part A)
-- [x] [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md) — full prompt log
+- [x] [`docs/SUBMISSION-FORM-ANSWERS.md`](docs/SUBMISSION-FORM-ANSWERS.md) — **online form answers mirrored in repo**
+- [x] [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md) — **full prompt log with verbatim prompts + iterations**
+- [x] [`docs/requirement-analysis.md`](docs/requirement-analysis.md) — requirement breakdown
 - [x] [`docs/design.md`](docs/design.md) + [`docs/architecture.md`](docs/architecture.md)
 - [x] [`docs/testing.md`](docs/testing.md) + [`docs/debugging.md`](docs/debugging.md)
-- [x] [`docs/reflcetion.md`](docs/reflcetion.md) — reflection
+- [x] [`docs/reflection.md`](docs/reflection.md) — reflection
 - [x] [`tool-specifics/cursor-workflow/`](tool-specifics/cursor-workflow/) — Cursor artifacts
 
 ## API endpoints

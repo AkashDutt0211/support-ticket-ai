@@ -35,9 +35,13 @@ AI-assisted full-stack exercise. Support ticket app. Lifecycle artifacts matter 
 ## Key docs
 
 - [`Requirements`](../../Requirements) — source of truth
+- [`docs/SUBMISSION.md`](../../docs/SUBMISSION.md) — **reviewer index — start here**
+- [`docs/ai-prompt-history.md`](../../docs/ai-prompt-history.md) — full prompt log
+- [`tool-workflow.md`](../../tool-workflow.md) — Part A AI workflow
 - [`spec.md`](spec.md) — contracts
 - [`tasks.md`](tasks.md) — checklists
 - [`acceptance-criteria.md`](acceptance-criteria.md) — done definition
+- [`docs/requirement-analysis.md`](../../docs/requirement-analysis.md) — requirement breakdown
 - [`docs/design.md`](../../docs/design.md) — technical design
 - [`docs/architecture.md`](../../docs/architecture.md) — system layout
 
