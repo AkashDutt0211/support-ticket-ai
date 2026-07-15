@@ -4,18 +4,20 @@ AI-assisted full-stack exercise — Support Ticket Management System.
 
 ## For reviewers — AI workflow evidence
 
-**Start here:** [`SUBMISSION.md`](SUBMISSION.md) — root index (maps every Requirements item to a file)
+**Start here:** [`SUBMISSION.md`](SUBMISSION.md) — maps every Requirements item to a file at repo root.
 
-| Root pointer (reviewer lookup) | Full document |
-|--------------------------------|---------------|
-| [`SUBMISSION.md`](SUBMISSION.md) | [`docs/SUBMISSION.md`](docs/SUBMISSION.md) |
-| [`prompt-history.md`](prompt-history.md) | [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md) |
-| [`requirement-analysis.md`](requirement-analysis.md) | [`docs/requirement-analysis.md`](docs/requirement-analysis.md) |
-| [`reflection.md`](reflection.md) | [`docs/reflection.md`](docs/reflection.md) |
-| [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) | [`docs/SUBMISSION-FORM-ANSWERS.md`](docs/SUBMISSION-FORM-ANSWERS.md) |
-| [`tool-workflow.md`](tool-workflow.md) | Part A — in place at root |
-| [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) | PR summary — in place at root |
-| [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) | Cursor artifacts (Requirements line 156) |
+| Artifact | File |
+|----------|------|
+| Submission index | [`SUBMISSION.md`](SUBMISSION.md) |
+| Full prompt history | [`ai-prompt-history.md`](ai-prompt-history.md) |
+| Requirement analysis | [`requirement-analysis.md`](requirement-analysis.md) |
+| Design & architecture | [`design.md`](design.md), [`architecture.md`](architecture.md) |
+| Testing & debugging | [`testing.md`](testing.md), [`debugging.md`](debugging.md) |
+| Reflection | [`reflection.md`](reflection.md) |
+| Form answers (cross-check) | [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) |
+| AI workflow (Part A) | [`tool-workflow.md`](tool-workflow.md) |
+| PR summary | [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) |
+| Cursor workflow | [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) |
 
 **Primary AI tool:** Cursor | **Pattern:** plan → human **APPROVED** → implement → append prompt history
 
@@ -23,11 +25,16 @@ AI-assisted full-stack exercise — Support Ticket Management System.
 
 ```
 support-ticket-ai/
+├── database/         # PostgreSQL + Prisma (Step 1) ← start here
 ├── backend/          # Node.js API (Step 2)
 ├── frontend/         # React app (Step 3)
-├── database/         # PostgreSQL + Prisma (Step 1) ← start here
-├── docs/             # Lifecycle artifacts
-└── tool-specific/    # Cursor workflow docs (Requirements line 156)
+├── tool-specific/    # Cursor workflow docs (Requirements line 156)
+├── SUBMISSION.md     # Reviewer index — start here
+├── ai-prompt-history.md
+├── tool-workflow.md
+├── requirement-analysis.md, design.md, architecture.md
+├── testing.md, debugging.md, reflection.md
+└── PR_DESCRIPTION.md, SUBMISSION-FORM-ANSWERS.md
 ```
 
 ## Quick start — Database
@@ -81,24 +88,18 @@ UI: **http://localhost:5173**
 
 ## Documentation
 
-### Root pointers (reviewer lookup)
-
-- [`SUBMISSION.md`](SUBMISSION.md) — artifact index
-- [`prompt-history.md`](prompt-history.md) — full AI prompt log
-- [`requirement-analysis.md`](requirement-analysis.md)
-- [`reflection.md`](reflection.md)
-- [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md)
-
-### Full documents
+All lifecycle artifacts live at **repo root** (no `docs/` folder):
 
 - [Requirements](Requirements) — project spec
-- [`docs/SUBMISSION.md`](docs/SUBMISSION.md) — detailed index
-- [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md)
+- [`SUBMISSION.md`](SUBMISSION.md) — reviewer index
+- [`ai-prompt-history.md`](ai-prompt-history.md) — full prompt log with iterations
 - [`tool-workflow.md`](tool-workflow.md) — AI workflow (Part A)
-- [`docs/design.md`](docs/design.md) — schema design
-- [`docs/architecture.md`](docs/architecture.md) — system architecture
-- [`docs/testing.md`](docs/testing.md) — test strategy
-- [`docs/debugging.md`](docs/debugging.md) — issues resolved + fixes
-- [`docs/reflection.md`](docs/reflection.md)
+- [`requirement-analysis.md`](requirement-analysis.md)
+- [`design.md`](design.md) — schema design
+- [`architecture.md`](architecture.md) — system architecture
+- [`testing.md`](testing.md) — test strategy
+- [`debugging.md`](debugging.md) — issues resolved + fixes
+- [`reflection.md`](reflection.md)
+- [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — mirrors online submission form
 - [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) — PR summary + test plan
 - [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) — Cursor spec, tasks, acceptance criteria

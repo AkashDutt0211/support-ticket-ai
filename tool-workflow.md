@@ -11,7 +11,7 @@
 Why Cursor for this exercise:
 - Persistent project context via `.cursor/rules/` and `tool-specific/cursor-workflow/`
 - Spec-driven flow: plan → human **APPROVED** → implement
-- Full prompt history in `docs/ai-prompt-history.md`
+- Full prompt history in `ai-prompt-history.md`
 - Integrated terminal for Docker, tests, API verification
 
 ---
@@ -20,14 +20,14 @@ Why Cursor for this exercise:
 
 | Artifact | Purpose |
 |----------|---------|
-| [`docs/SUBMISSION.md`](docs/SUBMISSION.md) | **Reviewer index** — maps Requirements → repo files |
+| [`SUBMISSION.md`](SUBMISSION.md) | **Reviewer index** — maps Requirements → repo files |
 | [`Requirements`](Requirements) | Source of truth — always `@` referenced |
 | [`tool-specific/cursor-workflow/project-context.md`](tool-specific/cursor-workflow/project-context.md) | Current stack + state snapshot |
 | [`tool-specific/cursor-workflow/spec.md`](tool-specific/cursor-workflow/spec.md) | API/UI contracts per step |
 | [`tool-specific/cursor-workflow/tasks.md`](tool-specific/cursor-workflow/tasks.md) | Checklist — what's done / next |
 | [`.cursor/rules/`](.cursor/rules/) | Enforced standards (TS, API, DB, React, security) |
 | [`.cursor/skills/feature-architect/`](.cursor/skills/feature-architect/) | Plan before build |
-| [`docs/design.md`](docs/design.md) + [`docs/architecture.md`](docs/architecture.md) | Technical design |
+| [`design.md`](design.md) + [`architecture.md`](architecture.md) | Technical design |
 
 **Pattern:** Each step started with `@Requirements` + folder context. No vague "build an app" prompts.
 
@@ -41,7 +41,7 @@ Why Cursor for this exercise:
 - Compared PostgreSQL vs MongoDB — chose Postgres for relational model
 - Broke work into Step 1 (DB) → Step 2 (API) → Step 3 (UI) → Step 4 (artifacts)
 
-**Output:** [`docs/requirement-analysis.md`](docs/requirement-analysis.md) — full requirement breakdown before coding.
+**Output:** [`requirement-analysis.md`](requirement-analysis.md) — full requirement breakdown before coding.
 
 **Human judgment:** Locked stack after AI recommendation. Approved each step before code.
 
@@ -107,7 +107,7 @@ Why Cursor for this exercise:
 - RTL: ErrorAlert render/dismiss
 - Unit: state machine utils
 
-**Docs:** [`docs/testing.md`](docs/testing.md)
+**Docs:** [`testing.md`](testing.md)
 
 **AI role:** Test structure suggested by AI; assertions reviewed for real behavior not implementation details.
 
@@ -124,7 +124,7 @@ Why Cursor for this exercise:
 | `crypto.getRandomValues` | Node 16 default | `.nvmrc` + Node 20 check |
 | npm `# comment` paste | Shell passed args to tsc/vitest | README: one command per line |
 
-**Open issues:** All five screening items fixed — see [`docs/debugging.md`](docs/debugging.md).
+**Open issues:** All five screening items fixed — see [`debugging.md`](debugging.md).
 
 **AI role:** Paste terminal output → AI diagnoses → human applies fix → re-run.
 
@@ -138,7 +138,7 @@ Why Cursor for this exercise:
 - `/context-aware-bug-hunter` — production bug screening
 - Human review at each **APPROVED** gate
 
-**Findings summary:** Five issues found in screening — all fixed with regression tests. See [`docs/debugging.md`](docs/debugging.md).
+**Findings summary:** Five issues found in screening — all fixed with regression tests. See [`debugging.md`](debugging.md).
 
 ---
 
@@ -159,7 +159,7 @@ This workflow scales to production teams:
 
 1. **Persistent context** — `project-context.md` + rules in repo, not chat-only
 2. **Spec → approve → build** — prevents vibe-coding drift
-3. **Prompt history** — audit trail for decisions (`docs/ai-prompt-history.md`)
+3. **Prompt history** — audit trail for decisions (`ai-prompt-history.md`)
 4. **Layered delivery** — DB → API → UI with tests at each step
 5. **Human gates** — AI proposes, human approves architecture and security
 6. **Validate everything** — tests + manual checks before merge
@@ -178,7 +178,7 @@ This workflow scales to production teams:
 | Validation + errors | Zod backend, forms + ErrorAlert frontend |
 | Search/filter | `GET /tickets?search&status`, TicketFilters UI |
 | State machine tests | `backend/tests/integration/tickets.integration.test.ts` |
-| Prompt history | [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md) — verbatim prompts + iterations |
-| Submission index | [`docs/SUBMISSION.md`](docs/SUBMISSION.md) — reviewer checklist |
-| Requirement analysis | [`docs/requirement-analysis.md`](docs/requirement-analysis.md) |
+| Prompt history | [`ai-prompt-history.md`](ai-prompt-history.md) — verbatim prompts + iterations |
+| Submission index | [`SUBMISSION.md`](SUBMISSION.md) — reviewer checklist |
+| Requirement analysis | [`requirement-analysis.md`](requirement-analysis.md) |
 | Cursor workflow artifacts | `tool-specific/cursor-workflow/` |

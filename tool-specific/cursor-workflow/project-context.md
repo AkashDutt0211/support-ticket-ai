@@ -11,7 +11,7 @@ AI-assisted full-stack exercise. Support ticket app. Lifecycle artifacts matter 
 | 1 Database | Done | `database/` |
 | 2 Backend API | Done | `backend/` — port 3001 |
 | 3 Frontend | Done | `frontend/` — port 5173 |
-| 4 Submission artifacts | Done | `tool-workflow.md`, `PR_DESCRIPTION.md`, `docs/` |
+| 4 Submission artifacts | Done | `tool-workflow.md`, `PR_DESCRIPTION.md`, root lifecycle markdown files  |
 
 ## Stack
 
@@ -35,17 +35,15 @@ AI-assisted full-stack exercise. Support ticket app. Lifecycle artifacts matter 
 ## Key docs
 
 - [`Requirements`](../../Requirements) — source of truth
-- [`SUBMISSION.md`](../../SUBMISSION.md) — **reviewer entry point (root)**
-- [`prompt-history.md`](../../prompt-history.md) — prompt log pointer (root)
-- [`docs/ai-prompt-history.md`](../../docs/ai-prompt-history.md) — full prompt log
-- [`docs/SUBMISSION.md`](../../docs/SUBMISSION.md) — detailed artifact index
+- [`SUBMISSION.md`](../../SUBMISSION.md) — reviewer entry point (root)
+- [`ai-prompt-history.md`](../../ai-prompt-history.md) — full prompt log
 - [`tool-workflow.md`](../../tool-workflow.md) — Part A AI workflow
 - [`spec.md`](spec.md) — contracts
 - [`tasks.md`](tasks.md) — checklists
 - [`acceptance-criteria.md`](acceptance-criteria.md) — done definition
-- [`docs/requirement-analysis.md`](../../docs/requirement-analysis.md) — requirement breakdown
-- [`docs/design.md`](../../docs/design.md) — technical design
-- [`docs/architecture.md`](../../docs/architecture.md) — system layout
+- [`requirement-analysis.md`](../../requirement-analysis.md) — requirement breakdown
+- [`design.md`](../../design.md) — technical design
+- [`architecture.md`](../../architecture.md) — system layout
 
 ## Workflow rule
 

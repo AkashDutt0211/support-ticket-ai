@@ -34,12 +34,12 @@ Implements the **mandatory Core** of the Support Ticket Management System — a 
 ### Part A + C — Lifecycle artifacts
 
 - [x] [`tool-workflow.md`](tool-workflow.md) — AI workflow (Part A)
-- [x] [`docs/SUBMISSION-FORM-ANSWERS.md`](docs/SUBMISSION-FORM-ANSWERS.md) — **online form answers mirrored in repo**
-- [x] [`docs/ai-prompt-history.md`](docs/ai-prompt-history.md) — **full prompt log with verbatim prompts + iterations**
-- [x] [`docs/requirement-analysis.md`](docs/requirement-analysis.md) — requirement breakdown
-- [x] [`docs/design.md`](docs/design.md) + [`docs/architecture.md`](docs/architecture.md)
-- [x] [`docs/testing.md`](docs/testing.md) + [`docs/debugging.md`](docs/debugging.md)
-- [x] [`docs/reflection.md`](docs/reflection.md) — reflection
+- [x] [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — **online form answers mirrored in repo**
+- [x] [`ai-prompt-history.md`](ai-prompt-history.md) — **full prompt log with verbatim prompts + iterations**
+- [x] [`requirement-analysis.md`](requirement-analysis.md) — requirement breakdown
+- [x] [`design.md`](design.md) + [`architecture.md`](architecture.md)
+- [x] [`testing.md`](testing.md) + [`debugging.md`](debugging.md)
+- [x] [`reflection.md`](reflection.md) — reflection
 - [x] [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) — Cursor artifacts
 
 ## API endpoints
@@ -106,7 +106,7 @@ cd frontend && cp .env.example .env && npm run dev
 
 ## Post-review items — RESOLVED
 
-All five screening items from [`docs/debugging.md`](docs/debugging.md) were fixed:
+All five screening items from [`debugging.md`](debugging.md) were fixed:
 
 1. Atomic status update (`updateMany` + expected status)
 2. CommentForm clears only on success
@@ -116,4 +116,4 @@ All five screening items from [`docs/debugging.md`](docs/debugging.md) were fixe
 
 ## AI workflow note
 
-Built with **Cursor** using spec-driven flow: plan documented → human **APPROVED** → implement. Full traceability in `docs/ai-prompt-history.md`.
+Built with **Cursor** using spec-driven flow: plan documented → human **APPROVED** → implement. Full traceability in `ai-prompt-history.md`.

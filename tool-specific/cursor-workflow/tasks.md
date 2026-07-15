@@ -55,17 +55,17 @@
 ### 3.10 Docs
 
 - [x] frontend/README.md
-- [x] Root README, docs/testing.md, prompt history
+- [x] Root README, testing.md, prompt history
 
 ---
 
 ## Step 4: Submission artifacts — complete
 
 - [x] `tool-workflow.md` (Part A)
-- [x] `docs/SUBMISSION-FORM-ANSWERS.md` — mirrors online participation form
-- [x] `docs/requirement-analysis.md` — full requirement breakdown
-- [x] `docs/ai-prompt-history.md` — verbatim prompts + iteration log
-- [x] `docs/reflection.md`
+- [x] `SUBMISSION-FORM-ANSWERS.md` — mirrors online participation form
+- [x] `requirement-analysis.md` — full requirement breakdown
+- [x] `ai-prompt-history.md` — verbatim prompts + iteration log
+- [x] `reflection.md`
 - [x] `PR_DESCRIPTION.md`
-- [x] `docs/debugging.md`
+- [x] `debugging.md`
 - [x] Screening + 5 bug fixes applied

@@ -1,8 +1,8 @@
 # AI Prompt History — Support Ticket Management System
 
-> **This is the full prompt log** required by [`Requirements`](../Requirements) (line 82: "Full prompt history").  
+> **This is the full prompt log** required by [`Requirements`](Requirements) (line 82: "Full prompt history").  
 > It includes **verbatim user prompts**, AI outputs (summarized), **human corrections**, iteration chains, and traceability to code/docs.  
-> **Reviewer quick path:** [`SUBMISSION.md`](../SUBMISSION.md) · [`prompt-history.md`](../prompt-history.md) (root pointers)
+> **Reviewer quick path:** [`SUBMISSION.md`](SUBMISSION.md) · [`ai-prompt-history.md`](ai-prompt-history.md) (this file)
 
 **Tool:** Cursor (Agent mode, Plan mode, custom commands)  
 **Pattern:** `@Requirements` + workflow docs → plan → human **APPROVED** → implement → append history
@@ -17,7 +17,7 @@ Each prompt attached persistent project context:
 @Requirements                          ← source of truth
 @tool-specific/cursor-workflow/       ← spec, tasks, acceptance criteria
 .cursor/rules/                         ← enforced coding standards
-docs/design.md, docs/architecture.md   ← prior design decisions
+design.md, architecture.md   ← prior design decisions
 ```
 
 **Guardrails used repeatedly:**
@@ -52,7 +52,7 @@ Preserve the prompt history in the .md files which are already created.
 
 **Human action:** Asked follow-up before locking stack.
 
-**Docs updated:** `docs/ai-prompt-history.md` (this file), `docs/design.md`, `docs/architecture.md`
+**Docs updated:** `ai-prompt-history.md` (this file), `design.md`, `architecture.md`
 
 ---
 
@@ -66,7 +66,7 @@ suggest if PostgreSQL or MongoDB which one will be better and why ?
 
 **Human decision:** Accepted PostgreSQL recommendation.
 
-**Traceability:** Decision recorded in [`docs/requirement-analysis.md`](requirement-analysis.md) §7.
+**Traceability:** Decision recorded in [`requirement-analysis.md`](requirement-analysis.md) §7.
 
 ---
 
@@ -124,7 +124,7 @@ User hit P1000 Prisma auth error. Pasted terminal output showing Docker not runn
 
 **Iteration 2 — AI fix:** README warnings — one command per line, no inline comments.
 
-**Traceability:** [`docs/debugging.md`](debugging.md) § Resolved
+**Traceability:** [`debugging.md`](debugging.md) § Resolved
 
 ---
 
@@ -153,8 +153,8 @@ Add prompt history and planned documents inside md files.
 **Docs updated before code:**
 - `tool-specific/cursor-workflow/spec.md` — API contract
 - `tool-specific/cursor-workflow/tasks.md` — Step 2 checklist
-- `docs/design.md` — backend section
-- `docs/architecture.md` — sequence diagrams
+- `design.md` — backend section
+- `architecture.md` — sequence diagrams
 
 **Human gate:** Waiting for **APPROVED** — no backend code written.
 
@@ -263,7 +263,7 @@ is extreme major. Require human approval before changing anything
 
 **AI output:**
 - Wrote `tool-workflow.md` (Part A — 11 sections)
-- Wrote `docs/reflection.md`, `PR_DESCRIPTION.md`, `docs/debugging.md`
+- Wrote `reflection.md`, `PR_DESCRIPTION.md`, `debugging.md`
 - Ran `/code-refactorer` + `/context-aware-bug-hunter` — documented 5 issues, no code changes without approval
 
 **Human gate:** Issues documented for approval before fix.
@@ -307,7 +307,7 @@ This section shows **iteration beyond first output** — a key reviewer criterio
 | Problem | User had local Postgres on 5432 — P1000 auth errors |
 | Human input | Pasted Prisma error output |
 | AI correction | Moved to port 5433, added `db:preflight` and `db:setup` |
-| Evidence | `database/docker-compose.yml`, `docs/debugging.md` |
+| Evidence | `database/docker-compose.yml`, `debugging.md` |
 
 ### Iteration B — APPROVED gate (Steps 2 & 3)
 
@@ -378,7 +378,7 @@ This section shows **iteration beyond first output** — a key reviewer criterio
 Review @Requirements and @tool-specific/cursor-workflow/spec.md.
 Create plan for [STEP]. Do NOT write code.
 Update spec.md, tasks.md, acceptance-criteria.md, design.md.
-Caveman style. Append to docs/ai-prompt-history.md.
+Caveman style. Append to ai-prompt-history.md.
 Wait for APPROVED.
 ```
 
@@ -393,7 +393,7 @@ Implement per tasks.md section [X]. Run tests. Update prompt history.
 
 ```
 [Paste terminal error output]
-Diagnose root cause. Smallest safe fix. Document in docs/debugging.md.
+Diagnose root cause. Smallest safe fix. Document in debugging.md.
 ```
 
 ### Template 4 — Code review command
@@ -403,7 +403,7 @@ Screen with /code-refactorer and /context-aware-bug-hunter.
 Document findings. No major changes without approval.
 ```
 
-These templates are reusable in real projects — see [`tool-workflow.md`](../tool-workflow.md) §11.
+These templates are reusable in real projects — see [`tool-workflow.md`](tool-workflow.md) §11.
 
 ---
 
@@ -414,7 +414,7 @@ These templates are reusable in real projects — see [`tool-workflow.md`](../to
 | 1 | Database | 1–4 | `database/` |
 | 2 | Backend | 5–9 | `backend/` |
 | 3 | Frontend | 10–11 | `frontend/` |
-| 4 | Artifacts + screening | 12 | `docs/`, `tool-workflow.md` |
+| 4 | Artifacts + screening | 12 | root lifecycle markdown, `tool-workflow.md` |
 | 5 | Bug fixes | 13 | BE + FE patches |
 
 **Total documented prompts:** 13  
@@ -439,14 +439,14 @@ this can be reviewed again.
 
 **Root cause analysis:**
 - Files existed in repo but were not discoverable enough for reviewer
-- `docs/requirement-analysis.md` was **empty** (explicit Requirements gap)
-- `docs/ai-prompt-history.md` was summary-level, not "full" with verbatim prompts + iterations
+- `requirement-analysis.md` was **empty** (explicit Requirements gap)
+- `ai-prompt-history.md` was summary-level, not "full" with verbatim prompts + iterations
 - README did not surface lifecycle artifacts prominently
 
 **Fixes applied:**
-- Created [`docs/SUBMISSION.md`](SUBMISSION.md) — reviewer checklist mapping every Requirements item to a file
-- Filled [`docs/requirement-analysis.md`](requirement-analysis.md) — full breakdown
-- Expanded [`docs/ai-prompt-history.md`](ai-prompt-history.md) — verbatim prompts, iteration log, traceability table, reusable templates
+- Created [`SUBMISSION.md`](SUBMISSION.md) — reviewer checklist mapping every Requirements item to a file
+- Filled [`requirement-analysis.md`](requirement-analysis.md) — full breakdown
+- Expanded [`ai-prompt-history.md`](ai-prompt-history.md) — verbatim prompts, iteration log, traceability table, reusable templates
 - Updated README with **"For reviewers"** section at top
 - Updated `cursor-rules-or-instructions.md` with prompt iteration examples
 - Fixed broken `reflcetion.md` link → `reflection.md`
@@ -469,4 +469,4 @@ cannot cross-check claims against code. Find possible fixes.
 
 **Root cause:** Part C answers were submitted only via external online form — not mirrored in repo. Reviewer could not cross-check narrative claims against code.
 
-**Fix:** Created [`docs/SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — 10 questions with specific file/commit pointers. Linked from README and SUBMISSION.md.
+**Fix:** Created [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — 10 questions with specific file/commit pointers. Linked from README and SUBMISSION.md.

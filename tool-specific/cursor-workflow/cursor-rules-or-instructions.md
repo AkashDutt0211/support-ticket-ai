@@ -7,13 +7,13 @@
 - **Tasks:** [`tasks.md`](tasks.md) — checklist
 - **Acceptance:** [`acceptance-criteria.md`](acceptance-criteria.md) — done definition
 - **Project context:** [`project-context.md`](project-context.md) — current state
-- **Prompt history:** [`docs/ai-prompt-history.md`](../../docs/ai-prompt-history.md) — full log
-- **Submission index:** [`docs/SUBMISSION.md`](../../docs/SUBMISSION.md) — reviewer map
+- **Prompt history:** [`ai-prompt-history.md`](../../ai-prompt-history.md) — full log
+- **Submission index:** [`SUBMISSION.md`](../../SUBMISSION.md) — reviewer map
 
 ## Workflow rules
 
 1. **Spec before code** — update docs, get human approval, then implement
-2. **Append prompt history** — every session → `docs/ai-prompt-history.md` with verbatim prompts
+2. **Append prompt history** — every session → `ai-prompt-history.md` with verbatim prompts
 3. **Follow `.cursor/rules/`** — all applicable rules per layer
 4. **Caveman style** in plans — short, direct sentences
 5. **Document iterations** — when AI is wrong, record correction in prompt history § Iteration log
@@ -54,7 +54,7 @@ User:  [pastes tsc error trying to compile "#" as file]
 AI:    README warning: one command per line, no shell comments
 ```
 
-Full log: [`docs/ai-prompt-history.md`](../../docs/ai-prompt-history.md)
+Full log: [`ai-prompt-history.md`](../../ai-prompt-history.md)
 
 ## Layer rules
 
