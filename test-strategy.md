@@ -1,6 +1,10 @@
-# Testing — Support Ticket Management System
+# Test Strategy
 
-## Summary
+## Test Scope
+
+Core mandatory tier: **state-machine integration tests** proving valid transitions succeed and invalid transitions are rejected. Extended with unit and component tests across all packages (114 total).
+
+## Unit Tests
 
 | Package | Command | Unit tests | Integration tests | Total |
 |---------|---------|------------|-------------------|-------|
@@ -106,3 +110,31 @@ cd database && npm test
 cd ../backend && npm test   # needs Docker
 cd ../frontend && npm test
 ```
+
+---
+
+## Component Tests
+
+Frontend RTL tests for `StatusActions`, `TicketForm`, `CommentForm`, `TicketFilters`, `ErrorAlert` — see `frontend/tests/components/`.
+
+## API / Integration Tests
+
+`backend/tests/integration/tickets.integration.test.ts` — all valid/invalid state transitions against real PostgreSQL.
+
+## Edge Case Tests
+
+- Atomic status update race (`ticketService.test.ts`)
+- CommentForm retains input on API failure
+- P2025 → 404 mapping (`errorHandler.test.ts`)
+- Refetch preserves ticket on error (`useTicket.test.tsx`)
+
+## Tests Not Covered (and why)
+
+| Gap | Why |
+|-----|-----|
+| E2E (Playwright/Cypress) | Stretch — Core uses integration + component tests |
+| Auth flow tests | Auth not implemented (optional Stretch) |
+| Pagination/sort tests | Stretch features not built |
+| Load/performance tests | Out of exercise scope |
+
+Results: [`test-results.md`](test-results.md)

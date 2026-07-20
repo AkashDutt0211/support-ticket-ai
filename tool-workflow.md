@@ -27,7 +27,7 @@ Why Cursor for this exercise:
 | [`tool-specific/cursor-workflow/tasks.md`](tool-specific/cursor-workflow/tasks.md) | Checklist — what's done / next |
 | [`.cursor/rules/`](.cursor/rules/) | Enforced standards (TS, API, DB, React, security) |
 | [`.cursor/skills/feature-architect/`](.cursor/skills/feature-architect/) | Plan before build |
-| [`design.md`](design.md) + [`architecture.md`](architecture.md) | Technical design |
+| [`design-notes.md`](design-notes.md) + [`design-notes.md`](design-notes.md) | Technical design |
 
 **Pattern:** Each step started with `@Requirements` + folder context. No vague "build an app" prompts.
 
@@ -41,7 +41,7 @@ Why Cursor for this exercise:
 - Compared PostgreSQL vs MongoDB — chose Postgres for relational model
 - Broke work into Step 1 (DB) → Step 2 (API) → Step 3 (UI) → Step 4 (artifacts)
 
-**Output:** [`requirement-analysis.md`](requirement-analysis.md) — full requirement breakdown before coding.
+**Output:** [`requirements-analysis.md`](requirements-analysis.md) — full requirement breakdown before coding.
 
 **Human judgment:** Locked stack after AI recommendation. Approved each step before code.
 
@@ -51,7 +51,7 @@ Why Cursor for this exercise:
 
 **Workflow:**
 1. AI drafts plan in markdown (caveman style — short, direct)
-2. Updates `spec.md`, `tasks.md`, `acceptance-criteria.md`, `design.md`
+2. Updates `spec.md`, `tasks.md`, `acceptance-criteria.md`, `design-notes.md`
 3. Human reviews → replies **APPROVED**
 4. Only then implementation starts
 
@@ -107,7 +107,7 @@ Why Cursor for this exercise:
 - RTL: ErrorAlert render/dismiss
 - Unit: state machine utils
 
-**Docs:** [`testing.md`](testing.md)
+**Docs:** [`test-strategy.md`](test-strategy.md)
 
 **AI role:** Test structure suggested by AI; assertions reviewed for real behavior not implementation details.
 
@@ -124,7 +124,7 @@ Why Cursor for this exercise:
 | `crypto.getRandomValues` | Node 16 default | `.nvmrc` + Node 20 check |
 | npm `# comment` paste | Shell passed args to tsc/vitest | README: one command per line |
 
-**Open issues:** All five screening items fixed — see [`debugging.md`](debugging.md).
+**Open issues:** All five screening items fixed — see [`debugging-notes.md`](debugging-notes.md).
 
 **AI role:** Paste terminal output → AI diagnoses → human applies fix → re-run.
 
@@ -138,7 +138,7 @@ Why Cursor for this exercise:
 - `/context-aware-bug-hunter` — production bug screening
 - Human review at each **APPROVED** gate
 
-**Findings summary:** Five issues found in screening — all fixed with regression tests. See [`debugging.md`](debugging.md).
+**Findings summary:** Five issues found in screening — all fixed with regression tests. See [`debugging-notes.md`](debugging-notes.md).
 
 ---
 
@@ -180,5 +180,5 @@ This workflow scales to production teams:
 | State machine tests | `backend/tests/integration/tickets.integration.test.ts` |
 | Prompt history | [`ai-prompt-history.md`](ai-prompt-history.md) — verbatim prompts + iterations |
 | Submission index | [`SUBMISSION.md`](SUBMISSION.md) — reviewer checklist |
-| Requirement analysis | [`requirement-analysis.md`](requirement-analysis.md) |
+| Requirement analysis | [`requirements-analysis.md`](requirements-analysis.md) |
 | Cursor workflow artifacts | `tool-specific/cursor-workflow/` |

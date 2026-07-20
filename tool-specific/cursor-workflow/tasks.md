@@ -55,7 +55,7 @@
 ### 3.10 Docs
 
 - [x] frontend/README.md
-- [x] Root README, testing.md, prompt history
+- [x] Root README, test-strategy.md, ai-prompts/
 
 ---
 
@@ -63,9 +63,9 @@
 
 - [x] `tool-workflow.md` (Part A)
 - [x] `SUBMISSION-FORM-ANSWERS.md` — mirrors online participation form
-- [x] `requirement-analysis.md` — full requirement breakdown
-- [x] `ai-prompt-history.md` — verbatim prompts + iteration log
+- [x] `requirements-analysis.md` — full requirement breakdown
+- [x] `ai-prompts/` — verbatim prompts + iteration log
 - [x] `reflection.md`
-- [x] `PR_DESCRIPTION.md`
-- [x] `debugging.md`
+- [x] `pr-description.md`
+- [x] `debugging-notes.md`
 - [x] Screening + 5 bug fixes applied

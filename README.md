@@ -2,44 +2,51 @@
 
 AI-assisted full-stack exercise — Support Ticket Management System.
 
-## For reviewers — AI workflow evidence
-
-**Start here:** [`SUBMISSION.md`](SUBMISSION.md) — maps every Requirements item to a file at repo root.
+## For reviewers — start here
 
 | Artifact | File |
 |----------|------|
-| Submission index | [`SUBMISSION.md`](SUBMISSION.md) |
-| Full prompt history | [`ai-prompt-history.md`](ai-prompt-history.md) |
-| Requirement analysis | [`requirement-analysis.md`](requirement-analysis.md) |
-| Design & architecture | [`design.md`](design.md), [`architecture.md`](architecture.md) |
-| Testing & debugging | [`testing.md`](testing.md), [`debugging.md`](debugging.md) |
-| Reflection | [`reflection.md`](reflection.md) |
-| Form answers (cross-check) | [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) |
+| Candidate info | [`candidate-info.md`](candidate-info.md) |
+| Requirement analysis | [`requirements-analysis.md`](requirements-analysis.md) |
+| Acceptance criteria | [`acceptance-criteria.md`](acceptance-criteria.md) |
+| Implementation plan | [`implementation-plan.md`](implementation-plan.md) |
+| Design | [`design-notes.md`](design-notes.md), [`data-model.md`](data-model.md), [`api-contract.md`](api-contract.md), [`ui-flow.md`](ui-flow.md) |
 | AI workflow (Part A) | [`tool-workflow.md`](tool-workflow.md) |
-| PR summary | [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) |
+| Prompt history | [`ai-prompts/`](ai-prompts/) |
+| Testing | [`test-strategy.md`](test-strategy.md), [`test-results.md`](test-results.md) |
+| Debugging & review | [`debugging-notes.md`](debugging-notes.md), [`code-review-notes.md`](code-review-notes.md), [`review-fixes.md`](review-fixes.md) |
+| Reflection & summary | [`reflection.md`](reflection.md), [`final-ai-usage-summary.md`](final-ai-usage-summary.md) |
+| PR description | [`pr-description.md`](pr-description.md) |
 | Cursor workflow | [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) |
 
-**Primary AI tool:** Cursor | **Pattern:** plan → human **APPROVED** → implement → append prompt history
+**Primary AI tool:** Cursor | **Pattern:** plan → human **APPROVED** → implement
 
 ## Project structure
 
 ```
 support-ticket-ai/
-├── database/         # PostgreSQL + Prisma (Step 1) ← start here
-├── backend/          # Node.js API (Step 2)
-├── frontend/         # React app (Step 3)
-├── tool-specific/    # Cursor workflow docs (Requirements line 156)
-├── SUBMISSION.md     # Reviewer index — start here
-├── ai-prompt-history.md
-├── tool-workflow.md
-├── requirement-analysis.md, design.md, architecture.md
-├── testing.md, debugging.md, reflection.md
-└── PR_DESCRIPTION.md, SUBMISSION-FORM-ANSWERS.md
+├── src/                 # Application source (symlinks → package src/)
+│   ├── backend/         → backend/src/
+│   ├── frontend/        → frontend/src/
+│   └── database/        → database/src/
+├── tests/               # Automated tests (symlinks → package tests/)
+│   ├── backend/         → backend/tests/
+│   ├── frontend/        → frontend/tests/
+│   └── database/        → database/tests/
+├── database/
+│   ├── schema-or-migrations/  → prisma schema + migrations
+│   └── seed-data/             → seed.ts, seed-data.ts
+├── backend/             # Node.js API (Step 2)
+├── frontend/            # React app (Step 3)
+├── ai-prompts/          # Prompt history by activity
+└── tool-specific/cursor-workflow/
 ```
+
+Lifecycle markdown files (`requirements-analysis.md`, `design-notes.md`, etc.) live at repo root — see reviewer table above.
 
 ## Quick start — Database
 
-See **[database/README.md](database/README.md)** for full setup.
+See **[database/README.md](database/README.md)** and **[database/setup-notes.md](database/setup-notes.md)**.
 
 ```bash
 cd database
@@ -50,7 +57,7 @@ npm run db:setup
 
 ## Quick start — Backend
 
-See **[backend/README.md](backend/README.md)** for full setup.
+See **[backend/README.md](backend/README.md)**.
 
 ```bash
 nvm use 20
@@ -65,7 +72,7 @@ API: **http://localhost:3001**
 
 ## Quick start — Frontend
 
-See **[frontend/README.md](frontend/README.md)** for full setup.
+See **[frontend/README.md](frontend/README.md)**.
 
 ```bash
 nvm use 20
@@ -88,18 +95,8 @@ UI: **http://localhost:5173**
 
 ## Documentation
 
-All lifecycle artifacts live at **repo root** (no `docs/` folder):
+All lifecycle artifacts at **repo root** per [`Requirements`](Requirements) repository structure.
 
 - [Requirements](Requirements) — project spec
-- [`SUBMISSION.md`](SUBMISSION.md) — reviewer index
-- [`ai-prompt-history.md`](ai-prompt-history.md) — full prompt log with iterations
-- [`tool-workflow.md`](tool-workflow.md) — AI workflow (Part A)
-- [`requirement-analysis.md`](requirement-analysis.md)
-- [`design.md`](design.md) — schema design
-- [`architecture.md`](architecture.md) — system architecture
-- [`testing.md`](testing.md) — test strategy
-- [`debugging.md`](debugging.md) — issues resolved + fixes
-- [`reflection.md`](reflection.md)
-- [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — mirrors online submission form
-- [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) — PR summary + test plan
-- [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) — Cursor spec, tasks, acceptance criteria
+- [`SUBMISSION.md`](SUBMISSION.md) — detailed artifact index (helper)
+- [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — mirrors online form

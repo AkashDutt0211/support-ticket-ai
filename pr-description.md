@@ -1,4 +1,4 @@
-# Pull Request — Support Ticket Management System (Core)
+# PR Description
 
 ## Summary
 
@@ -35,10 +35,10 @@ Implements the **mandatory Core** of the Support Ticket Management System — a 
 
 - [x] [`tool-workflow.md`](tool-workflow.md) — AI workflow (Part A)
 - [x] [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — **online form answers mirrored in repo**
-- [x] [`ai-prompt-history.md`](ai-prompt-history.md) — **full prompt log with verbatim prompts + iterations**
-- [x] [`requirement-analysis.md`](requirement-analysis.md) — requirement breakdown
-- [x] [`design.md`](design.md) + [`architecture.md`](architecture.md)
-- [x] [`testing.md`](testing.md) + [`debugging.md`](debugging.md)
+- [x] [`ai-prompts/`](ai-prompts/) — **full prompt log grouped by activity**
+- [x] [`requirements-analysis.md`](requirements-analysis.md) — requirement breakdown
+- [x] [`design-notes.md`](design-notes.md) + [`data-model.md`](data-model.md) + [`api-contract.md`](api-contract.md)
+- [x] [`test-strategy.md`](test-strategy.md) + [`debugging-notes.md`](debugging-notes.md)
 - [x] [`reflection.md`](reflection.md) — reflection
 - [x] [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) — Cursor artifacts
 
@@ -106,7 +106,7 @@ cd frontend && cp .env.example .env && npm run dev
 
 ## Post-review items — RESOLVED
 
-All five screening items from [`debugging.md`](debugging.md) were fixed:
+All five screening items from [`debugging-notes.md`](debugging-notes.md) were fixed:
 
 1. Atomic status update (`updateMany` + expected status)
 2. CommentForm clears only on success
@@ -116,4 +116,4 @@ All five screening items from [`debugging.md`](debugging.md) were fixed:
 
 ## AI workflow note
 
-Built with **Cursor** using spec-driven flow: plan documented → human **APPROVED** → implement. Full traceability in `ai-prompt-history.md`.
+Built with **Cursor** using spec-driven flow: plan documented → human **APPROVED** → implement. Full traceability in [`ai-prompts/`](ai-prompts/).

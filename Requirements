@@ -148,6 +148,110 @@ Backend validation prevents invalid records.
 No secrets committed to the repo.
 State-machine integration tests pass.
 
+Required Repository Structure
+Submit a Git repository following this structure as closely as possible:
+ai-practical-assessment/
+  README.md
+  candidate-info.md
+  tool-workflow.md
+  requirements-analysis.md
+  acceptance-criteria.md
+  implementation-plan.md
+  design-notes.md
+  api-contract.md   data-model.md   ui-flow.md
+  test-strategy.md
+  src/   tests/
+  database/
+    schema-or-migrations   seed-data   setup-notes.md
+  test-results.md   debugging-notes.md
+  code-review-notes.md   review-fixes.md
+  pr-description.md   reflection.md   final-ai-usage-summary.md
+  ai-prompts/
+    planning.md  design.md  implementation.md
+    testing.md  debugging.md  code-review.md  documentation.md
+  tool-specific/
+    kiro-specs/ | cursor-workflow/ | other-tool-workflow/
+Fill only the tool-specific folder relevant to your selected tool.
+
+Submission Templates
+Use these as starting structures for the required artifacts — they are a floor, not a limit.
+Candidate Information
+File: candidate-info.md
+# Candidate Information
+Name:  /  Role:  /  Primary Technology Stack:
+Primary AI Tool Used:  /  Project Option Selected:
+Assessment Start Date:  /  Submission Date:
+## Project Summary  /  ## Tools Used  /  ## Setup Summary
+Requirement Analysis
+File: requirements-analysis.md
+# Requirement Analysis
+## Selected Project Option
+## My Understanding (in your own words)
+## Functional Requirements  /  ## Non-Functional Requirements
+## Assumptions  /  ## Clarifications (questions for a product owner)
+## Edge Cases
+Acceptance Criteria
+File: acceptance-criteria.md
+# Acceptance Criteria
+## Core  - [ ] ...   ## Validation  - [ ] ...
+## Error Handling  - [ ] ...   ## Testing  - [ ] ...
+## Documentation  - [ ] ...
+Implementation Plan
+File: implementation-plan.md
+# Implementation Plan
+## Overview  /  ## Task Breakdown  /  ## Milestones
+## AI Usage Plan  /  ## Risks  /  ## Mitigation
+Design Notes
+File: design-notes.md
+# Design Notes
+## Architecture Overview (frontend, backend, database)
+## Frontend Design  /  ## Backend Design  /  ## Database Design
+## Validation Strategy  /  ## Error Handling Strategy
+## Testing Strategy Link
+API Contract
+File: api-contract.md
+# API Contract
+## Endpoint:  Method:  Path:  Purpose:
+### Request { }   ### Response { }
+### Validation Rules   ### Error Responses
+Test Strategy
+File: test-strategy.md
+# Test Strategy
+## Test Scope
+## Unit Tests  /  ## Component Tests
+## API / Integration Tests  /  ## Edge Case Tests
+## Tests Not Covered (and why)
+Debugging Notes
+File: debugging-notes.md
+# Debugging Notes
+## Issue 1
+### Problem  /  ### How I Investigated
+### How AI Helped  /  ### What I Validated  /  ### Final Fix
+Code Review Notes
+File: code-review-notes.md
+# Code Review Notes
+## AI-Assisted Review Summary  /  ## My Review Observations
+## Changes Made After Review  /  ## Suggestions Rejected (and why)
+Reflection
+File: reflection.md
+# Reflection
+## What I Built  /  ## How I Used AI (across the lifecycle)
+## What AI Helped With Most  /  ## What AI Got Wrong
+## How I Validated AI Output  /  ## What I Would Improve Next
+## Reusable Workflow (prompts, rules, specs, templates)
+PR Description
+File: pr-description.md
+# PR Description
+## Summary  /  ## Features Implemented  /  ## Technical Changes
+## Database Changes  /  ## Testing Done  /  ## AI Usage Summary
+## Screenshots / Demo Notes  /  ## Known Limitations  /  ## Future Improvements
+
+Prompt History Expectations
+Group prompt history by activity under ai-prompts/. It need not include every interaction, but it must show enough to evaluate how you used AI. For each prompt, capture: the prompt text or summary, the AI response summary, what you accepted, what you changed, what you rejected, and why.
+Strong prompt history shows: context setting, iteration, review of AI output, correction of wrong suggestions, stack-specific guidance, testing and validation prompts, and responsible judgment about what context to share.
+Weak prompt history shows: one-line prompts only, no context, no iteration, no evidence of review, only final answers copied from AI, and missing prompts for testing, debugging, or review.
+
+
 Tool-Specific Expectations
 Kiro
 Submit tool-specific/kiro-specs/ with requirements.md, design.md, tasks.md. Show that you reviewed and improved the generated spec, that your implementation followed it, that you updated it when needed, and that you used Kiro as a spec-driven tool rather than only a code generator.
@@ -210,4 +314,3 @@ Summary
 You'll complete a self-paced, one-week AI-assisted full-stack exercise using an approved AI tool (Cursor, Kiro, Claude, or equivalent). Choose one project option — Backend-heavy (Support Ticket Management System) or Frontend-heavy (AI Learning Dashboard / Project Tracker) — and build the mandatory Core; Stretch is optional and shows more advanced practice.
 Your project should include a frontend, a backend API, database persistence, setup/migration files, seed data, validation, error handling, search/filter, tests, README instructions, AI prompt/workflow history, a reflection, and a PR description. Authentication is optional. You may use React, Node.js, Java, Python, or a full-stack combination.
 Use AI thoughtfully and make your usage visible — how you set context, planned, generated and refined code, tested, debugged, reviewed, and documented. When you're ready, share your repository link and answers through the form. You'll get a feedback report with your strengths, growth areas, and next steps, and possibly a short coaching conversation. Everyone in the competency does this — it's a shared step in building how we all work with AI.
-

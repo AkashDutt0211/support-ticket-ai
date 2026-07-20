@@ -1,10 +1,76 @@
-# Debugging — Support Ticket Management System
+# Debugging Notes
 
-Log of issues encountered during development and open items from Step 4 screening.
+## Issue 1 — P1000 Authentication failed
+
+### Problem
+
+Prisma `P1000` on migrate/seed.
+
+### How I Investigated
+
+Pasted terminal output; checked which Postgres instance Prisma connected to.
+
+### How AI Helped
+
+Diagnosed Docker not running; port 5432 conflict with local Postgres.
+
+### What I Validated
+
+Started Docker, ran `npm run db:setup` on port 5433.
+
+### Final Fix
+
+`database/docker-compose.yml` port 5433, `db:preflight` script.
 
 ---
 
-## Resolved during development
+## Issue 2 — Vitest startup errors
+
+### Problem
+
+`ERR_REQUIRE_ESM`, `crypto.getRandomValues is not a function`.
+
+### How I Investigated
+
+Pasted Vitest stack trace; checked Node version.
+
+### How AI Helped
+
+Identified CJS/ESM config conflict and Node 16 missing Web Crypto.
+
+### What I Validated
+
+`nvm use 20`, renamed config to `.mjs`.
+
+### Final Fix
+
+`vitest.config.mjs`, `check-node.mjs`, `.nvmrc`.
+
+---
+
+## Issue 3 — npm commands with inline comments
+
+### Problem
+
+Shell passed `#` and comment text as args to tsc/vitest.
+
+### How AI Helped
+
+Explained shell parsing of inline comments.
+
+### Final Fix
+
+README warnings — one command per line.
+
+---
+
+## Issue 4 — Screening bugs (5 items) — RESOLVED
+
+See [`review-fixes.md`](review-fixes.md) for full details.
+
+---
+
+## Resolved during development (detail)
 
 ### P1000 — Authentication failed for `ticket_user`
 

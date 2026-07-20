@@ -1,11 +1,44 @@
-# Reflection — Support Ticket Management System
+# Reflection
 
-**Date:** 2026-07-14  
-**Exercise:** AI Capability — Support Ticket Management System (Core)
+## What I Built
+
+Full-stack Core app in 4 steps: database → backend API → React frontend → lifecycle artifacts (114 tests).
+
+## How I Used AI (across the lifecycle)
+
+Plan → APPROVED → implement for each phase. AI drafted specs and code; I ran tests, verified cURL, approved bug fixes. See [`ai-prompts/`](ai-prompts/) and [`tool-workflow.md`](tool-workflow.md).
+
+## What AI Helped With Most
+
+Scaffolding (Prisma, Express routes, React components), requirement breakdown, terminal error diagnosis, test boilerplate.
+
+## What AI Got Wrong
+
+- Initially used port 5432 (conflict with local Postgres)
+- Vitest config without Node version check
+- Marked app "complete" before bug-hunter screening
+- cURL commands with inline `#` comments
+
+## How I Validated AI Output
+
+Ran all test suites, manual cURL verification, `/context-aware-bug-hunter` screening, human APPROVED gates before major code.
+
+## What I Would Improve Next
+
+- Shared state machine package (avoid BE/FE drift)
+- Auth if moving beyond exercise
+- CI workflow (Stretch)
+- OpenAPI documentation (Stretch)
+
+## Reusable Workflow (prompts, rules, specs, templates)
+
+- `.cursor/rules/` + `tool-specific/cursor-workflow/`
+- Prompt templates in [`ai-prompts/documentation.md`](ai-prompts/documentation.md)
+- APPROVED gate pattern in `cursor-rules-or-instructions.md`
 
 ---
 
-## What I built
+## What I built (detail)
 
 Full-stack Core app in 4 steps:
 
@@ -24,7 +57,7 @@ Full-stack Core app in 4 steps:
 
 **Persistence of context.** `.cursor/rules/` + `tool-specific/cursor-workflow/` meant AI did not forget patterns between sessions.
 
-**Debugging was visible.** Docker/Node/Vitest issues documented in `debugging.md` and `ai-prompt-history.md` — not hidden.
+**Debugging was visible.** Docker/Node/Vitest issues documented in `debugging-notes.md` and `ai-prompts/debugging.md` — not hidden.
 
 ---
 
@@ -89,7 +122,7 @@ Ran `/code-refactorer` and `/context-aware-bug-hunter` on full app.
 
 **Verdict:** Core complete and demo-ready. No show-stopper for submission.
 
-**Fix later (human approval needed):** All five items **fixed** — see [`debugging.md`](debugging.md).
+**Fix later (human approval needed):** All five items **fixed** — see [`debugging-notes.md`](debugging-notes.md).
 
 ---
 

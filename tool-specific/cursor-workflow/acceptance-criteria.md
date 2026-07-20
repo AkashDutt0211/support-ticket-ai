@@ -60,9 +60,9 @@
 
 - [x] `tool-workflow.md` — Part A AI workflow
 - [x] `SUBMISSION-FORM-ANSWERS.md` — online form answers in repo
-- [x] `requirement-analysis.md` — full requirement breakdown
+- [x] `requirements-analysis.md` — full requirement breakdown
 - [x] `ai-prompt-history.md` — verbatim prompts + iteration log
 - [x] `reflection.md` — reflection
-- [x] `PR_DESCRIPTION.md` — PR summary + test plan
-- [x] `debugging.md` — resolved + screening fixes
+- [x] `pr-description.md` — PR summary + test plan
+- [x] `debugging-notes.md` — resolved + screening fixes
 - [x] Full-app screening + 5 bug fixes

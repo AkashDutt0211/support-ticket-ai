@@ -1,8 +1,54 @@
-# Requirement Analysis — Support Ticket Management System
+# Requirement Analysis
 
 **Date:** 2026-07-14  
 **Method:** AI-assisted analysis of [`Requirements`](Requirements), validated by human before implementation.  
-**Prompt that produced this:** Session 1 — Technical Lead planning request (see [`ai-prompt-history.md`](ai-prompt-history.md)).
+**Prompt:** Session 1 — see [`ai-prompts/planning.md`](ai-prompts/planning.md).
+
+## Selected Project Option
+
+**Support Ticket Management System** (Backend-heavy) — Core mandatory scope.
+
+## My Understanding (in your own words)
+
+A small internal support ticket app where users create, update, comment on, search, and progress tickets through a **defined status state machine**. The exercise values lifecycle artifacts (prompt history, design, testing, reflection) as much as the working app. Authentication is optional; seeded users suffice for Core.
+
+## Functional Requirements
+
+(See §3 Core vs Stretch below for detailed mapping.)
+
+## Non-Functional Requirements
+
+- Data persists across restart (PostgreSQL + Docker volume)
+- Backend validates all input; meaningful UI error states
+- No secrets in repository
+- README setup instructions that work from clean clone
+- Full prompt history grouped by activity under `ai-prompts/`
+
+## Assumptions
+
+- Acting-user dropdown acceptable instead of auth (Requirements §88)
+- Monorepo (`database/`, `backend/`, `frontend/`) satisfies frontend + backend + DB requirements; root `src/` and `tests/` use symlinks to package directories per Requirements §163
+- `database/seed-data/` exposes seed scripts via symlinks to `prisma/seed.ts` and `prisma/seed-data.ts`
+- API uses `*Id` suffix on write payloads (`createdById`, `assignedToId`); responses include nested `createdBy` / `assignedTo` objects matching Requirements entity names
+- Status stored as enums (`OPEN`, `IN_PROGRESS`, …); UI shows Requirements labels ("Open", "In Progress", …)
+- Port 5433 for Docker Postgres to avoid local 5432 conflict
+- Node 20 for Vitest/crypto compatibility
+
+## Clarifications (questions for a product owner)
+
+- None blocking — Requirements are explicit for Core scope
+- Stretch items (auth, pagination, OpenAPI) deferred intentionally
+
+## Edge Cases
+
+| Case | Handling |
+|------|----------|
+| Unassigned ticket | `assignedToId` nullable |
+| Invalid status transition | Backend 422; frontend hides invalid buttons |
+| Concurrent status update | Atomic `updateMany WHERE status = expected` |
+| Missing ticket/user | 404 |
+| Empty search | Returns all tickets (no filter) |
+| Terminal status (CLOSED/CANCELLED) | No outbound transitions |
 
 ---
 
@@ -169,7 +215,7 @@ Tracked in [`tool-specific/cursor-workflow/acceptance-criteria.md`](tool-specifi
 |------|------------|
 | AI over-implements without scope control | Plan → **APPROVED** → implement gate |
 | State machine drift FE/BE | Same rules in both; tests on both sides |
-| Local env issues (Docker, Node version) | Documented in `debugging.md`; preflight scripts |
+| Local env issues (Docker, Node version) | Documented in `debugging-notes.md`; preflight scripts |
 | Shallow prompt history | Append to `ai-prompt-history.md` every session |
 | No auth but client sends userId | Documented trade-off; acting-user selector for demo |
 

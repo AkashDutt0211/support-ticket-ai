@@ -1,6 +1,40 @@
 # Submission Index — Support Ticket Management System
 
-**Purpose:** Reviewer entry point — maps every item from [`Requirements`](Requirements) to a file in this repository.
+**Purpose:** Reviewer helper — maps [`Requirements`](Requirements) items to files.  
+**Primary entry:** [`README.md`](README.md) reviewer table.
+
+---
+
+## Required repository structure (Requirements §151–174)
+
+| Required file/folder | Path | Status |
+|---------------------|------|--------|
+| README.md | [`README.md`](README.md) | ✅ |
+| candidate-info.md | [`candidate-info.md`](candidate-info.md) | ✅ |
+| tool-workflow.md | [`tool-workflow.md`](tool-workflow.md) | ✅ |
+| requirements-analysis.md | [`requirements-analysis.md`](requirements-analysis.md) | ✅ |
+| acceptance-criteria.md | [`acceptance-criteria.md`](acceptance-criteria.md) | ✅ |
+| implementation-plan.md | [`implementation-plan.md`](implementation-plan.md) | ✅ |
+| design-notes.md | [`design-notes.md`](design-notes.md) | ✅ |
+| api-contract.md | [`api-contract.md`](api-contract.md) | ✅ |
+| data-model.md | [`data-model.md`](data-model.md) | ✅ |
+| ui-flow.md | [`ui-flow.md`](ui-flow.md) | ✅ |
+| test-strategy.md | [`test-strategy.md`](test-strategy.md) | ✅ |
+| src/ | [`src/`](src/) | ✅ — symlinks to package `src/` dirs |
+| tests/ | [`tests/`](tests/) | ✅ — symlinks to package `tests/` dirs |
+| database/ | [`database/`](database/) | ✅ |
+| database/schema-or-migrations | [`database/schema-or-migrations/`](database/schema-or-migrations/) | ✅ |
+| database/seed-data | [`database/seed-data/`](database/seed-data/) | ✅ — `seed.ts`, `seed-data.ts` present |
+| database/setup-notes.md | [`database/setup-notes.md`](database/setup-notes.md) | ✅ |
+| test-results.md | [`test-results.md`](test-results.md) | ✅ |
+| debugging-notes.md | [`debugging-notes.md`](debugging-notes.md) | ✅ |
+| code-review-notes.md | [`code-review-notes.md`](code-review-notes.md) | ✅ |
+| review-fixes.md | [`review-fixes.md`](review-fixes.md) | ✅ |
+| pr-description.md | [`pr-description.md`](pr-description.md) | ✅ |
+| reflection.md | [`reflection.md`](reflection.md) | ✅ |
+| final-ai-usage-summary.md | [`final-ai-usage-summary.md`](final-ai-usage-summary.md) | ✅ |
+| ai-prompts/ | [`ai-prompts/`](ai-prompts/) | ✅ |
+| tool-specific/cursor-workflow/ | [`tool-specific/cursor-workflow/`](tool-specific/cursor-workflow/) | ✅ |
 
 ---
 
@@ -8,84 +42,43 @@
 
 | Requirements asks for | File | Status |
 |----------------------|------|--------|
-| `tool-workflow.md` at repo root | [`tool-workflow.md`](tool-workflow.md) | ✅ Complete — all 11 sections |
-| How context is provided | [`tool-workflow.md` §2](tool-workflow.md) + [`tool-specific/cursor-workflow/project-context.md`](tool-specific/cursor-workflow/project-context.md) | ✅ |
-| Requirement analysis via AI | [`requirement-analysis.md`](requirement-analysis.md) | ✅ |
-| Planning & design via AI | [`design.md`](design.md), [`architecture.md`](architecture.md) | ✅ |
-| **Full prompt history** | [`ai-prompt-history.md`](ai-prompt-history.md) | ✅ — verbatim prompts + iterations |
-| Prompt iteration & corrections | [`ai-prompt-history.md` § Iteration log](ai-prompt-history.md#iteration-log-ai-mistakes--human-corrections) | ✅ |
-| Testing approach | [`testing.md`](testing.md) | ✅ |
-| Debugging evidence | [`debugging.md`](debugging.md) | ✅ |
+| `tool-workflow.md` | [`tool-workflow.md`](tool-workflow.md) | ✅ |
+| Context provision | [`tool-workflow.md` §2](tool-workflow.md) + [`project-context.md`](tool-specific/cursor-workflow/project-context.md) | ✅ |
+| Requirement analysis | [`requirements-analysis.md`](requirements-analysis.md) | ✅ |
+| Planning & design | [`design-notes.md`](design-notes.md), [`implementation-plan.md`](implementation-plan.md) | ✅ |
+| **Full prompt history** | [`ai-prompts/`](ai-prompts/) | ✅ |
+| Testing approach | [`test-strategy.md`](test-strategy.md) | ✅ |
+| Debugging evidence | [`debugging-notes.md`](debugging-notes.md) | ✅ |
 | Reflection | [`reflection.md`](reflection.md) | ✅ |
-| **Submission form answers** | [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) | ✅ — mirrors online form for cross-check |
-| PR description | [`PR_DESCRIPTION.md`](PR_DESCRIPTION.md) | ✅ |
+| PR description | [`pr-description.md`](pr-description.md) | ✅ |
 
 ---
 
-## Cursor tool-specific artifacts (Requirements line 156)
+## Cursor tool-specific (Requirements line 260)
 
-| Required file | Path | Status |
-|---------------|------|--------|
-| `project-context.md` | [`tool-specific/cursor-workflow/project-context.md`](tool-specific/cursor-workflow/project-context.md) | ✅ |
-| `spec.md` | [`tool-specific/cursor-workflow/spec.md`](tool-specific/cursor-workflow/spec.md) | ✅ |
-| `tasks.md` | [`tool-specific/cursor-workflow/tasks.md`](tool-specific/cursor-workflow/tasks.md) | ✅ |
-| `acceptance-criteria.md` | [`tool-specific/cursor-workflow/acceptance-criteria.md`](tool-specific/cursor-workflow/acceptance-criteria.md) | ✅ |
-| `cursor-rules-or-instructions.md` | [`tool-specific/cursor-workflow/cursor-rules-or-instructions.md`](tool-specific/cursor-workflow/cursor-rules-or-instructions.md) | ✅ |
-
-**Persistent rules (reusable context):** [`.cursor/rules/`](.cursor/rules/) — 12 rule files enforced during codegen.
+| File | Path | Status |
+|------|------|--------|
+| project-context.md | [`tool-specific/cursor-workflow/project-context.md`](tool-specific/cursor-workflow/project-context.md) | ✅ |
+| spec.md | [`tool-specific/cursor-workflow/spec.md`](tool-specific/cursor-workflow/spec.md) | ✅ |
+| tasks.md | [`tool-specific/cursor-workflow/tasks.md`](tool-specific/cursor-workflow/tasks.md) | ✅ |
+| acceptance-criteria.md | [`tool-specific/cursor-workflow/acceptance-criteria.md`](tool-specific/cursor-workflow/acceptance-criteria.md) | ✅ |
+| cursor-rules-or-instructions.md | [`tool-specific/cursor-workflow/cursor-rules-or-instructions.md`](tool-specific/cursor-workflow/cursor-rules-or-instructions.md) | ✅ |
 
 ---
 
-## Part B — Full-Stack Mini Project (60%)
+## Part B — Application (60%)
 
 | Requirement | Evidence |
 |-------------|----------|
-| Frontend application | [`frontend/`](frontend/) — React 19 + Vite |
-| Backend API | [`backend/`](backend/) — Express on port 3001 |
-| Database persistence | [`database/`](database/) — PostgreSQL 16 + Prisma |
-| Migrations | [`database/prisma/migrations/`](database/prisma/migrations/) |
-| Seed data | [`database/prisma/seed.ts`](database/prisma/seed.ts) |
-| Input validation | Zod in `backend/src/validators/`, forms in frontend |
-| Error handling | `backend/src/middleware/errorHandler.ts`, `ErrorAlert` UI |
-| Search / filter | `GET /api/tickets?search&status`, `TicketFilters` |
+| Frontend | [`frontend/`](frontend/) |
+| Backend API | [`backend/`](backend/) |
+| Database | [`database/`](database/) |
 | State machine tests | [`backend/tests/integration/tickets.integration.test.ts`](backend/tests/integration/tickets.integration.test.ts) |
-| README setup | [`README.md`](README.md) + per-package READMEs |
+| 114 automated tests | [`test-results.md`](test-results.md) |
 
 ---
 
-## Traceability: spec → prompt → code
+## Helper artifacts (not in Requirements template)
 
-| Step | Spec | Prompt session | Implementation |
-|------|------|----------------|----------------|
-| 1 Database | [`spec.md`](tool-specific/cursor-workflow/spec.md) | [Prompt history § Session 1](ai-prompt-history.md#session-1--database-stack--step-1) | `database/` |
-| 2 Backend | [`spec.md`](tool-specific/cursor-workflow/spec.md) | [Prompt history § Session 2](ai-prompt-history.md#session-2--backend-api-step-2) | `backend/` |
-| 3 Frontend | [`spec.md`](tool-specific/cursor-workflow/spec.md) | [Prompt history § Session 3](ai-prompt-history.md#session-3--frontend-step-3) | `frontend/` |
-| 4 Artifacts + review fixes | [`tasks.md`](tool-specific/cursor-workflow/tasks.md) | [Prompt history § Sessions 4–5](ai-prompt-history.md#session-4--submission-artifacts--screening) | root lifecycle markdown + `tool-workflow.md` |
-
----
-
-## How to verify AI usage (quick reviewer path)
-
-1. Read [`tool-workflow.md`](tool-workflow.md) — Part A narrative (5 min)
-2. Read [`ai-prompt-history.md`](ai-prompt-history.md) — full prompt log with iterations (10 min)
-3. Read [`requirement-analysis.md`](requirement-analysis.md) — requirement breakdown before coding (5 min)
-4. Compare [`tool-specific/cursor-workflow/spec.md`](tool-specific/cursor-workflow/spec.md) to actual API in `backend/src/routes/`
-5. Check human **APPROVED** gates in prompt history before each implementation step
-
----
-
-## Workflow pattern used
-
-```
-@Requirements + @tool-specific/cursor-workflow/
-        ↓
-   AI drafts plan in docs (no code)
-        ↓
-   Human reviews → replies "APPROVED"
-        ↓
-   AI implements + tests
-        ↓
-   Prompt appended to ai-prompt-history.md
-```
-
-This pattern is documented in [`cursor-rules-or-instructions.md`](tool-specific/cursor-workflow/cursor-rules-or-instructions.md).
+- [`SUBMISSION-FORM-ANSWERS.md`](SUBMISSION-FORM-ANSWERS.md) — mirrors online form
+- [`ai-prompt-history.md`](ai-prompt-history.md) — index to `ai-prompts/`
